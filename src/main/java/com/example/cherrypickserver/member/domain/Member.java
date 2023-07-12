@@ -1,5 +1,6 @@
 package com.example.cherrypickserver.member.domain;
 
+import com.example.cherrypickserver.global.entity.BaseEntity;
 import com.example.cherrypickserver.member.exception.NotValidBirthdateException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
