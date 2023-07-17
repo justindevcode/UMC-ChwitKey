@@ -16,7 +16,7 @@ public class Article extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "like_id")
+  @Column(name = "article_id")
   private Long id;
 
   @Column(columnDefinition="TEXT")

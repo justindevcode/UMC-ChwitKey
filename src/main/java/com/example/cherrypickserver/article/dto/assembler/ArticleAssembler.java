@@ -2,7 +2,9 @@ package com.example.cherrypickserver.article.dto.assembler;
 
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ArticleAssembler {
   public Article createArticle(CreateArticleReq createArticleReq) {
     return Article.builder()
