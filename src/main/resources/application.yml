@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: set1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ENC(l99MJqAUPwKvze+lJpIq8F9T+dfHg9TTE0qKgyM2jk5o0hMR6RB1SNRkdOdqBqqR0Gw0xUgjTKCo5ShUQm6TQJvnqO+NbjP2hGlXwGGgnPo0lZZKQO5Hm0O08AiU8/VYC8Vmb7xdx7ZIKfYSGgpdcHX/ifN5dceHEOLUjuxinRdQVap8gtUiHqbLDCoLIKXz8xLOOlyQnvg=)
@@ -23,4 +26,34 @@ gpt:
   key: ENC(Jzyf0nsLehjSuR1auVWcle/+yw4FYRSatil6ylkRnvh73RJM03nNp6ECWy+VWDTo4xABNNlrhIJpsnpiiGkilQ==)
 
 server:
-  port: 8080
+  port: 8081
+---
+
+spring:
+  config:
+    activate:
+      on-profile: set2
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(l99MJqAUPwKvze+lJpIq8F9T+dfHg9TTE0qKgyM2jk5o0hMR6RB1SNRkdOdqBqqR0Gw0xUgjTKCo5ShUQm6TQJvnqO+NbjP2hGlXwGGgnPo0lZZKQO5Hm0O08AiU8/VYC8Vmb7xdx7ZIKfYSGgpdcHX/ifN5dceHEOLUjuxinRdQVap8gtUiHqbLDCoLIKXz8xLOOlyQnvg=)
+    username: ENC(fYM/g4oPrAc9UX8Ei9BGbEaFpbjXtvU2)
+    password: ENC(xA+qzw+zb/hMNOSQdVbT4/dOiGmPZkrR)
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+jasypt:
+  encryptor:
+    bean : jasyptStringEncryptor
+
+gpt:
+  key: ENC(Jzyf0nsLehjSuR1auVWcle/+yw4FYRSatil6ylkRnvh73RJM03nNp6ECWy+VWDTo4xABNNlrhIJpsnpiiGkilQ==)
+server:
+  port: 8082

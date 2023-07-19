@@ -7,10 +7,9 @@ import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
@@ -33,16 +32,14 @@ public class ArticleController {
     return ResponseCustom.OK(articleService.detailArticle(articleIdx));
   }
 
-  // 기사 검색 (커맨드)
-  @ResponseBody
-  @GetMapping("/search")
-  public ResponseCustom<Page<SearchArticleRes>> searchArticleByCond(
-          @RequestParam String cond,
-          @RequestParam String jobKeyword,
-          Pageable pageable)
-  {
-    if (StringUtils.hasText(cond) && StringUtils.hasText(jobKeyword))
-      return  ResponseCustom.OK(articleService.searchArticleByCondAndJobKeyword(cond, jobKeyword, pageable));
-    else return ResponseCustom.OK(articleService.searchArticleByCond(cond, pageable));
-  }
+//  // 기사 검색 (키워드 + 커맨드)
+//  @ResponseBody
+//  @GetMapping("/search")
+//  public ResponseCustom<Page<SearchArticleRes>> searchArticle(
+//          @RequestParam(defaultValue = "") String cond,
+//          @RequestParam(defaultValue = "") String jobKeyword,
+//          Pageable pageable)
+//  {
+//    return ResponseCustom.OK(articleService.searchArticle(cond, jobKeyword, pageable));
+//  }
 }

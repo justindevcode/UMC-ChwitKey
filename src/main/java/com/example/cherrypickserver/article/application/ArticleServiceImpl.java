@@ -10,9 +10,8 @@ import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class ArticleServiceImpl implements ArticleService{
   @Override
   public Long createArticle(CreateArticleReq createArticleReq)
   {
-    return articleRepository.save(articleAssembler.createArticle(createArticleReq)).getId();
+    return articleRepository.save(articleAssembler.toEntity(createArticleReq)).getId();
   }
 
   @Override
@@ -33,14 +32,10 @@ public class ArticleServiceImpl implements ArticleService{
   }
 
   @Override
-  public Page<SearchArticleRes> searchArticleByCond(String cond, Pageable pageable)
+  public Page<SearchArticleRes> searchArticle(String cond, String jobKeyword, Pageable pageable)
   {
     return null;
   }
 
-  @Override
-  public Page<SearchArticleRes> searchArticleByCondAndJobKeyword(String cond, String jobKeyword, Pageable pageable)
-  {
-    return null;
-  }
+
 }
