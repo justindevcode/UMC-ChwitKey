@@ -4,6 +4,7 @@ import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.global.entity.BaseEntity;
 import com.example.cherrypickserver.member.domain.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,10 @@ public class Chat extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public Chat(Member member, Article article) {
+        this.member = member;
+        this.article = article;
+    }
 }
