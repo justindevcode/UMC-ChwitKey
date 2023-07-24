@@ -1,10 +1,15 @@
 package com.example.cherrypickserver.article.presentation;
 
 import com.example.cherrypickserver.article.application.ArticleService;
-import com.example.cherrypickserver.article.dto.Request.CreateArticleReq;
+import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
+import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
+import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
 
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
@@ -19,9 +24,22 @@ public class ArticleController {
   public ResponseCustom<Long> createArticle(@RequestBody CreateArticleReq createArticleReq) {
     return ResponseCustom.OK(articleService.createArticle(createArticleReq));
   }
-  // 기사 삭제
 
-  // 기사 업데이트
+  // 기사 상세 조회
+  @ResponseBody
+  @GetMapping("/detail/{articleIdx}")
+  public ResponseCustom<DetailArticleRes> detailArticle(@PathVariable Long articleIdx) {
+    return ResponseCustom.OK(articleService.detailArticle(articleIdx));
+  }
 
-  // 기사 제거
+//  // 기사 검색 (키워드 + 커맨드)
+//  @ResponseBody
+//  @GetMapping("/search")
+//  public ResponseCustom<Page<SearchArticleRes>> searchArticle(
+//          @RequestParam(defaultValue = "") String cond,
+//          @RequestParam(defaultValue = "") String jobKeyword,
+//          Pageable pageable)
+//  {
+//    return ResponseCustom.OK(articleService.searchArticle(cond, jobKeyword, pageable));
+//  }
 }

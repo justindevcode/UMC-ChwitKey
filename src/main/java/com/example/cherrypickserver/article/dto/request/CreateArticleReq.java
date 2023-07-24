@@ -1,4 +1,4 @@
-package com.example.cherrypickserver.article.dto.Request;
+package com.example.cherrypickserver.article.dto.request;
 
 import lombok.Getter;
 
@@ -9,5 +9,5 @@ public class CreateArticleReq {
   private String articleName;
   private String contents;
   private String publisher;
-  private List<String> articleImgUrl;
+  private String articleImgUrl;
 }
