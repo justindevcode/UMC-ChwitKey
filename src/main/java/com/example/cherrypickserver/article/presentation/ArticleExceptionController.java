@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.text.ParseException;
+
 @Slf4j
 @RestControllerAdvice
 public class ArticleExceptionController {
@@ -14,6 +16,12 @@ public class ArticleExceptionController {
   public ResponseCustom<?> catchArticleNotFoundException(ArticleNotFoundException e) {
     log.error(e.getMessage());
     return ResponseCustom.NOT_FOUND(e.getMessage());
+  }
+
+  @ExceptionHandler(ParseException.class)
+  public ResponseCustom<?> catchParseException(ParseException e) {
+    log.error(e.getMessage());
+    return ResponseCustom.BAD_REQUEST(e.getMessage());
   }
 }
 

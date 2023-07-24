@@ -6,9 +6,11 @@ import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.text.ParseException;
+
 
 public interface ArticleService {
-  Long createArticle(CreateArticleReq createArticleReq);
+  Long createArticle(CreateArticleReq createArticleReq) throws ParseException;
 
   DetailArticleRes detailArticle(Long articleIdx);
 
