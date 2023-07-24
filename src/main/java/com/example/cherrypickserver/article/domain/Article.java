@@ -2,12 +2,12 @@ package com.example.cherrypickserver.article.domain;
 
 
 import com.example.cherrypickserver.global.entity.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -22,16 +22,21 @@ public class Article extends BaseEntity {
   @Column(columnDefinition="TEXT")
   private String contents;
 
+  @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
+  private List<ArticlePhoto> articlePhoto = new ArrayList<>();
+
   private String articleName;
   private String publisher;
-  private String articleImgKey;
+  private String reporter;
+  private Date registeredAt;
 
   @Builder
-  public Article(String contents, String articleName, String publisher, String articleImgKey) {
+  public Article(String contents, String articleName, String publisher, String reporter, Date registeredAt) {
     this.contents = contents;
     this.articleName = articleName;
     this.publisher = publisher;
-    this.articleImgKey = articleImgKey;
+    this.reporter = reporter;
+    this.registeredAt = registeredAt;
   }
 }
 

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class ArticleController {
   // 기사 추가
   @ResponseBody
   @PostMapping("/new")
-  public ResponseCustom<Long> createArticle(@RequestBody CreateArticleReq createArticleReq) {
+  public ResponseCustom<Long> createArticle(@RequestBody CreateArticleReq createArticleReq) throws ParseException {
     return ResponseCustom.OK(articleService.createArticle(createArticleReq));
   }
 
