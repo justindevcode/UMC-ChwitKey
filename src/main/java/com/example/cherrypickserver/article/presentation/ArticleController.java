@@ -34,7 +34,7 @@ public class ArticleController {
     return ResponseCustom.OK(articleService.detailArticle(articleIdx));
   }
 
-  //  // 기사 검색 (키워드 + 커맨드)
+  //  // 기사 검색 (커맨드 + 정렬)
   @ResponseBody
   @GetMapping("/search")
   public ResponseCustom<Page<SearchArticleRes>> searchArticle(
