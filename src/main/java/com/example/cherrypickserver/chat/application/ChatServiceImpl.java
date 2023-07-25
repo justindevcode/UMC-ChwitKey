@@ -2,16 +2,14 @@ package com.example.cherrypickserver.chat.application;
 
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.domain.ArticleRepository;
-import com.example.cherrypickserver.chat.domain.Chat;
-import com.example.cherrypickserver.chat.domain.ChatContent;
-import com.example.cherrypickserver.chat.domain.ChatContentRepository;
-import com.example.cherrypickserver.chat.domain.ChatRepository;
+import com.example.cherrypickserver.chat.domain.*;
 import com.example.cherrypickserver.chat.dto.GptFullResponse;
 import com.example.cherrypickserver.chat.dto.GptRequest;
 import com.example.cherrypickserver.chat.dto.GptResponse;
 import com.example.cherrypickserver.chat.mapper.ChatCompletionMapper;
 import com.example.cherrypickserver.chat.mapper.ChatContentMapper;
 import com.example.cherrypickserver.chat.mapper.ChatMapper;
+import com.example.cherrypickserver.chat.mapper.ChatSummaryMapper;
 import com.example.cherrypickserver.member.domain.Member;
 import com.example.cherrypickserver.member.domain.MemberRepository;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -23,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,9 +33,12 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRepository chatRepository;
     private final ChatContentRepository chatContentRepository;
 
+    private final ChatSummaryRepository chatSummaryRepository;
+
     private final ChatMapper chatMapper;
     private final ChatContentMapper chatContentMapper;
     private final ChatCompletionMapper chatCompletionMapper;
+    private final ChatSummaryMapper chatSummaryMapper;
 
     private final OpenAiService openAiService;
 
@@ -77,6 +79,30 @@ public class ChatServiceImpl implements ChatService {
         GptResponse gptResponse = chatContentMapper.fromEntity(answer);
 
         return gptResponse;
+    }
+
+    @Override
+    public GptResponse chatSummary(Long articleId) {
+
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new NoSuchElementException()); //추후 예외처리 수정
+
+        if (!chatSummaryRepository.existsByArticle(article)) {
+            ChatCompletionRequest chatCompletionRequest = chatCompletionMapper.fromEntity(article);
+            ChatCompletionResult chatCompletionResult = openAiService.createChatCompletion(chatCompletionRequest);
+
+//        GptFullResponse gptFullResponse = GptFullResponse.of(chatCompletionResult);
+//        System.out.println("gptFullResponse PromptTokens = " + gptFullResponse.getUsage().getPromptTokens());
+//        System.out.println("gptFullResponse CompletionTokens = " + gptFullResponse.getUsage().getCompletionTokens());
+//        System.out.println("gptFullResponse TotalTokens = " + gptFullResponse.getUsage().getTotalTokens());
+
+            chatSummaryRepository.save(chatSummaryMapper.toEntity(chatCompletionResult, article));
+        }
+
+        ChatSummary chatSummary = chatSummaryRepository.findByArticle(article)
+                .orElseThrow(() -> new NoSuchElementException()); //추후 예외처리 수정
+
+        return chatSummaryMapper.fromEntity(chatSummary);
     }
 
     public Chat createChatAndContent(Member member, Article article) {
