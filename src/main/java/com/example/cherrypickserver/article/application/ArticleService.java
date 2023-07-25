@@ -14,5 +14,5 @@ public interface ArticleService {
 
   DetailArticleRes detailArticle(Long articleIdx);
 
-  Page<SearchArticleRes> searchArticle(String cond, String jobKeyword, Pageable pageable);
+  Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable);
 }

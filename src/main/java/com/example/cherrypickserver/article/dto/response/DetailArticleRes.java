@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 public class DetailArticleRes {
-  private String articleName;
-  private String contents;
+  private String title;
+  private String content;
   private String publisher;
   private Date registeredAt;
   private String reporter;
@@ -20,8 +20,8 @@ public class DetailArticleRes {
 
   public static DetailArticleRes toDto(Article article) {
     return DetailArticleRes.builder()
-            .articleName(article.getArticleName())
-            .contents(article.getContents())
+            .title(article.getTitle())
+            .content(article.getContent())
             .publisher(article.getPublisher())
             .registeredAt(article.getRegisteredAt())
             .reporter(article.getReporter())

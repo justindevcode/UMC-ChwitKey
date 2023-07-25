@@ -6,8 +6,8 @@ import java.util.List;
 
 @Getter
 public class CreateArticleReq {
-  private String articleName;
-  private String contents;
+  private String title;
+  private String content;
   private String publisher;
   private String registeredAt;
   private String reporter;

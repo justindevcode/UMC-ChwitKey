@@ -20,20 +20,23 @@ public class Article extends BaseEntity {
   private Long id;
 
   @Column(columnDefinition="TEXT")
-  private String contents;
+  private String content;
 
   @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
   private List<ArticlePhoto> articlePhoto = new ArrayList<>();
 
-  private String articleName;
+  @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+  private Integer likeCount = 0;
+
+  private String title;
   private String publisher;
   private String reporter;
   private Date registeredAt;
 
   @Builder
-  public Article(String contents, String articleName, String publisher, String reporter, Date registeredAt) {
-    this.contents = contents;
-    this.articleName = articleName;
+  public Article(String content, String title, String publisher, String reporter, Date registeredAt) {
+    this.content = content;
+    this.title = title;
     this.publisher = publisher;
     this.reporter = reporter;
     this.registeredAt = registeredAt;
