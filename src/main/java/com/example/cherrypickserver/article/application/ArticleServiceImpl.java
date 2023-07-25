@@ -10,8 +10,11 @@ import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 
@@ -37,9 +40,19 @@ public class ArticleServiceImpl implements ArticleService{
   }
 
   @Override
-  public Page<SearchArticleRes> searchArticle(String cond, String jobKeyword, Pageable pageable)
+  public Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable)
   {
-    return null;
+    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").ascending());
+    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").descending());
+    else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
+    else pageable = PageRequest.of(0, pageable.getPageSize());
+
+    if (StringUtils.hasText(cond)) {
+      Page<Article> articles = articleRepository.findByTitleContainingOrContentContainingAndIsEnable(cond, cond, true, pageable);
+      return articles.map(SearchArticleRes::toDto);
+    }
+    Page<Article> articles = articleRepository.findByIsEnable(true, pageable);
+    return articles.map(SearchArticleRes::toDto);
   }
 
 

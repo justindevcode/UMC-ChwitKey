@@ -34,14 +34,15 @@ public class ArticleController {
     return ResponseCustom.OK(articleService.detailArticle(articleIdx));
   }
 
-//  // 기사 검색 (키워드 + 커맨드)
-//  @ResponseBody
-//  @GetMapping("/search")
-//  public ResponseCustom<Page<SearchArticleRes>> searchArticle(
-//          @RequestParam(defaultValue = "") String cond,
-//          @RequestParam(defaultValue = "") String jobKeyword,
-//          Pageable pageable)
-//  {
-//    return ResponseCustom.OK(articleService.searchArticle(cond, jobKeyword, pageable));
-//  }
+  //  // 기사 검색 (커맨드 + 정렬)
+  @ResponseBody
+  @GetMapping("/search")
+  public ResponseCustom<Page<SearchArticleRes>> searchArticle(
+          @RequestParam String cond,
+          @RequestParam String sortType,
+          Pageable pageable
+  )
+  {
+    return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
+  }
 }

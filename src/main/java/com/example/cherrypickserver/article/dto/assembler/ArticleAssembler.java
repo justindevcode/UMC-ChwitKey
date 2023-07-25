@@ -13,8 +13,8 @@ import java.util.Date;
 public class ArticleAssembler {
   public Article toEntity(CreateArticleReq createArticleReq) throws ParseException {
     return Article.builder()
-            .articleName(createArticleReq.getArticleName())
-            .contents(createArticleReq.getContents())
+            .title(createArticleReq.getTitle())
+            .content(createArticleReq.getContent())
             .publisher(createArticleReq.getPublisher())
             .reporter(createArticleReq.getReporter())
             .registeredAt(parseDate(createArticleReq.getRegisteredAt()))
