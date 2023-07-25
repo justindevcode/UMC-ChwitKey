@@ -23,7 +23,7 @@ public class ChatCompletionMapper {
     public ChatCompletionRequest fromEntity(Article article) {
         return ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
-                .messages(List.of(new ChatMessage("user", "다음 기사 내용을 요약해줘 " + article.getContents())))
+                .messages(List.of(new ChatMessage("user", "다음 기사 내용을 요약해줘 " + article.getContent())))
                 .build();
     }
 }
