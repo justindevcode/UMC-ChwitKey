@@ -32,7 +32,6 @@ public class ChatServiceImpl implements ChatService {
     private final ArticleRepository articleRepository;
     private final ChatRepository chatRepository;
     private final ChatContentRepository chatContentRepository;
-
     private final ChatSummaryRepository chatSummaryRepository;
 
     private final ChatMapper chatMapper;
@@ -59,7 +58,7 @@ public class ChatServiceImpl implements ChatService {
                 .map(chatContent -> new ChatMessage(chatContent.getRole(), chatContent.getContent()))
                 .collect(Collectors.toList());
 
-        chatMessageList.add(new ChatMessage("user", gptRequest.getQuestion() + " 10초 이내로 답변해줘"));
+        chatMessageList.add(new ChatMessage("user", gptRequest.getQuestion()));
 
 //        System.out.println("chatMessageList = " + chatMessageList);
 
@@ -76,9 +75,7 @@ public class ChatServiceImpl implements ChatService {
 //        System.out.println("gptFullResponse CompletionTokens = " + gptFullResponse.getUsage().getCompletionTokens());
 //        System.out.println("gptFullResponse TotalTokens = " + gptFullResponse.getUsage().getTotalTokens());
 
-        GptResponse gptResponse = chatContentMapper.fromEntity(answer);
-
-        return gptResponse;
+        return chatContentMapper.fromEntity(answer);
     }
 
     @Override
@@ -90,11 +87,6 @@ public class ChatServiceImpl implements ChatService {
         if (!chatSummaryRepository.existsByArticle(article)) {
             ChatCompletionRequest chatCompletionRequest = chatCompletionMapper.fromEntity(article);
             ChatCompletionResult chatCompletionResult = openAiService.createChatCompletion(chatCompletionRequest);
-
-//        GptFullResponse gptFullResponse = GptFullResponse.of(chatCompletionResult);
-//        System.out.println("gptFullResponse PromptTokens = " + gptFullResponse.getUsage().getPromptTokens());
-//        System.out.println("gptFullResponse CompletionTokens = " + gptFullResponse.getUsage().getCompletionTokens());
-//        System.out.println("gptFullResponse TotalTokens = " + gptFullResponse.getUsage().getTotalTokens());
 
             chatSummaryRepository.save(chatSummaryMapper.toEntity(chatCompletionResult, article));
         }
@@ -112,7 +104,8 @@ public class ChatServiceImpl implements ChatService {
 
         //시스템 설정용 content - 추후 직군, 기사 내용 포함
         String content = "당신은 IT 분야 기사에 대한 질문에 대답하는 시스템입니다. " +
-                "10초 이내로 답변하고, 분야와 관련되지 않는 질문에는 답변하지 마세요.";
+                "모든 답변은 10초 이내로, 분야와 관련되지 않는 질문에는 다음과 같이 답변하세요."
+                +"죄송합니다. IT 분야 외의 질문에는 대답할 수 없습니다.";
 
         ChatContent chatContent = chatContentMapper.toEntity("system", content, chat);
         chatContentRepository.save(chatContent);
