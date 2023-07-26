@@ -26,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService{
   private final ArticleRepository articleRepository;
   private final ArticlePhotoRepository articlePhotoRepository;
   private final ArticleAssembler articleAssembler;
+
   @Override
   public Long createArticle(CreateArticleReq createArticleReq) throws ParseException {
     Article article = articleRepository.save(articleAssembler.toEntity(createArticleReq));
@@ -42,10 +43,7 @@ public class ArticleServiceImpl implements ArticleService{
   @Override
   public Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable)
   {
-    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").ascending());
-    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").descending());
-    else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
-    else pageable = PageRequest.of(0, pageable.getPageSize());
+    pageable = articleAssembler.setSortType(pageable, sortType);
 
     if (StringUtils.hasText(cond)) {
       Page<Article> articles = articleRepository.findByTitleContainingOrContentContainingAndIsEnable(cond, cond, true, pageable);

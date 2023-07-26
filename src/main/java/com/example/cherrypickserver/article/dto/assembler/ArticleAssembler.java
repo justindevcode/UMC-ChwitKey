@@ -2,6 +2,9 @@ package com.example.cherrypickserver.article.dto.assembler;
 
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -25,14 +28,11 @@ public class ArticleAssembler {
     return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(registeredAt);
   }
 
-  public int getSearchType(String cond, String jobKeyword) {
-    if (StringUtils.hasText(cond) && !StringUtils.hasText(jobKeyword))
-      return 1;
-    else if (!StringUtils.hasText(cond) && StringUtils.hasText(jobKeyword))
-      return 2;
-    else if (StringUtils.hasText(cond) && StringUtils.hasText(jobKeyword))
-      return 3;
-    else
-      return 0;
+  public Pageable setSortType(Pageable pageable, String sortType) {
+    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").ascending());
+    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").descending());
+    else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
+    else pageable = PageRequest.of(0, pageable.getPageSize());
+    return pageable;
   }
 }
