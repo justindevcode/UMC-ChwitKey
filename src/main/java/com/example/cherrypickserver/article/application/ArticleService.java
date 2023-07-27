@@ -15,4 +15,6 @@ public interface ArticleService {
   DetailArticleRes detailArticle(Long articleIdx);
 
   Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable);
+
+  void likeArticle(Long articleId, Long memberId);
 }

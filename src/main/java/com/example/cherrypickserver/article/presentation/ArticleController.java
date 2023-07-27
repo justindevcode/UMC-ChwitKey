@@ -45,4 +45,15 @@ public class ArticleController {
   {
     return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
   }
+
+  @ResponseBody
+  @GetMapping("/like/{articleId}")
+  public ResponseCustom<Void> likeArticle(
+          @PathVariable Long articleId,
+          @RequestParam Long memberId
+          )
+  {
+    articleService.likeArticle(articleId, memberId);
+    return ResponseCustom.OK();
+  }
 }

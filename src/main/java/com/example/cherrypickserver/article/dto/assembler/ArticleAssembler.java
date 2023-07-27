@@ -1,7 +1,9 @@
 package com.example.cherrypickserver.article.dto.assembler;
 
 import com.example.cherrypickserver.article.domain.Article;
+import com.example.cherrypickserver.article.domain.ArticleLike;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
+import com.example.cherrypickserver.member.domain.Member;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,5 +36,12 @@ public class ArticleAssembler {
     else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
     else pageable = PageRequest.of(0, pageable.getPageSize());
     return pageable;
+  }
+
+  public ArticleLike createArticleLike(Member member, Article article) {
+    return ArticleLike.builder()
+            .member(member)
+            .article(article)
+            .build();
   }
 }

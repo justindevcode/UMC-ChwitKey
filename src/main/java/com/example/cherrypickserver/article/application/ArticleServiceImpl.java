@@ -1,6 +1,7 @@
 package com.example.cherrypickserver.article.application;
 
 import com.example.cherrypickserver.article.domain.Article;
+import com.example.cherrypickserver.article.domain.ArticleLikeRepository;
 import com.example.cherrypickserver.article.domain.ArticlePhoto;
 import com.example.cherrypickserver.article.domain.ArticleRepository;
 import com.example.cherrypickserver.article.dto.assembler.ArticleAssembler;
@@ -8,12 +9,14 @@ import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
+import com.example.cherrypickserver.member.domain.Member;
+import com.example.cherrypickserver.member.domain.MemberRepository;
+import com.example.cherrypickserver.member.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
@@ -23,6 +26,8 @@ import java.text.ParseException;
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService{
 
+  private final ArticleLikeRepository articleLikeRepository;
+  private final MemberRepository memberRepository;
   private final ArticleRepository articleRepository;
   private final ArticlePhotoRepository articlePhotoRepository;
   private final ArticleAssembler articleAssembler;
@@ -51,6 +56,15 @@ public class ArticleServiceImpl implements ArticleService{
     }
     Page<Article> articles = articleRepository.findByIsEnable(true, pageable);
     return articles.map(SearchArticleRes::toDto);
+  }
+
+  @Override
+  @Transactional
+  public void likeArticle(Long articleId, Long memberId) {
+    Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
+    Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
+    articleLikeRepository.save(articleAssembler.createArticleLike(member, article));
+    article.likeArticle();
   }
 
 

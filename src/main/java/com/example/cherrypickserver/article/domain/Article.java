@@ -41,5 +41,9 @@ public class Article extends BaseEntity {
     this.reporter = reporter;
     this.registeredAt = registeredAt;
   }
+
+  public void likeArticle() {
+    this.likeCount += 1;
+  }
 }
 
