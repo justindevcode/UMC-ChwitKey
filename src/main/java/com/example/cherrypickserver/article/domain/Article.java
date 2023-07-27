@@ -45,5 +45,9 @@ public class Article extends BaseEntity {
   public void likeArticle() {
     this.likeCount += 1;
   }
+
+  public void unLikeArticle() {
+    this.likeCount -= 1;
+  }
 }
 

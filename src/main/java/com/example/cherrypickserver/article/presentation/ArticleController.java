@@ -59,5 +59,17 @@ public class ArticleController {
     return ResponseCustom.OK();
   }
 
+  // 좋아요 취소 + 스크랩 취소
+  @ResponseBody
+  @GetMapping("/unlike/{articleId}")
+  public ResponseCustom<Void> unAttendArticle(
+          @PathVariable Long articleId,
+          @RequestParam Long memberId,
+          @RequestParam String type
+  )
+  {
+    articleService.unAttendArticle(articleId, memberId, type);
+    return ResponseCustom.OK();
+  }
 
 }

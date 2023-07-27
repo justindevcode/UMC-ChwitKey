@@ -1,5 +1,7 @@
 package com.example.cherrypickserver.article.presentation;
 
+import com.example.cherrypickserver.article.exception.AlreadyAttendArticleException;
+import com.example.cherrypickserver.article.exception.ArticleAttentionNotFoundException;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
 import com.example.cherrypickserver.article.exception.AttentionTypeNotFoundException;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
@@ -29,6 +31,18 @@ public class ArticleExceptionController {
   public ResponseCustom<?> catchAttentionTypeNotFoundException(AttentionTypeNotFoundException e) {
     log.error(e.getMessage());
     return ResponseCustom.NOT_FOUND(e.getMessage());
+  }
+
+  @ExceptionHandler(AlreadyAttendArticleException.class)
+  public ResponseCustom<?> catchAlreadyAttendArticleException(AlreadyAttendArticleException e) {
+    log.error(e.getMessage());
+    return ResponseCustom.BAD_REQUEST(e.getMessage());
+  }
+
+  @ExceptionHandler(ArticleAttentionNotFoundException.class)
+  public ResponseCustom<?> catchArticleAttentionNotFoundException(ArticleAttentionNotFoundException e) {
+    log.error(e.getMessage());
+    return ResponseCustom.BAD_REQUEST(e.getMessage());
   }
 }
 

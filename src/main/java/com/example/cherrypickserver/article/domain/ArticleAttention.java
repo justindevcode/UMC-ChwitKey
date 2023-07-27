@@ -38,4 +38,8 @@ public class ArticleAttention extends BaseEntity {
     this.article = article;
     this.attentionType = attentionType;
   }
+
+  public void delete() {
+    this.setIsEnable(false);
+  }
 }
