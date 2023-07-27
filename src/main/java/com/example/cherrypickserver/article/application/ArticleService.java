@@ -16,5 +16,5 @@ public interface ArticleService {
 
   Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable);
 
-  void likeArticle(Long articleId, Long memberId);
+  void attendArticle(Long articleId, Long memberId, String type);
 }

@@ -46,14 +46,16 @@ public class ArticleController {
     return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
   }
 
+  // 좋아요 + 스크랩
   @ResponseBody
   @GetMapping("/like/{articleId}")
-  public ResponseCustom<Void> likeArticle(
+  public ResponseCustom<Void> attendArticle(
           @PathVariable Long articleId,
-          @RequestParam Long memberId
+          @RequestParam Long memberId,
+          @RequestParam String type
           )
   {
-    articleService.likeArticle(articleId, memberId);
+    articleService.attendArticle(articleId, memberId, type);
     return ResponseCustom.OK();
   }
 }

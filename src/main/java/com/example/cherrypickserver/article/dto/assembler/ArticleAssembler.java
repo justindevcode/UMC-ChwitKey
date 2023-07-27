@@ -2,13 +2,13 @@ package com.example.cherrypickserver.article.dto.assembler;
 
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.domain.ArticleLike;
+import com.example.cherrypickserver.article.domain.AttentionType;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.member.domain.Member;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,10 +38,11 @@ public class ArticleAssembler {
     return pageable;
   }
 
-  public ArticleLike createArticleLike(Member member, Article article) {
+  public ArticleLike toEntityAttention(Member member, Article article, AttentionType attentionType) {
     return ArticleLike.builder()
             .member(member)
             .article(article)
+            .attentionType(attentionType)
             .build();
   }
 }

@@ -18,7 +18,7 @@ public class ArticleLike extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "articleLike_id")
+  @Column(name = "articleAttention_id")
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,9 +29,14 @@ public class ArticleLike extends BaseEntity {
   @JoinColumn(name="article_id")
   private Article article;
 
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private AttentionType attentionType;
+
   @Builder
-  public ArticleLike(Member member, Article article) {
+  public ArticleLike(Member member, Article article, AttentionType attentionType) {
     this.member = member;
     this.article = article;
+    this.attentionType = attentionType;
   }
 }

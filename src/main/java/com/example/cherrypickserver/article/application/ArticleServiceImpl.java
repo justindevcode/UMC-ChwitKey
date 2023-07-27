@@ -1,9 +1,6 @@
 package com.example.cherrypickserver.article.application;
 
-import com.example.cherrypickserver.article.domain.Article;
-import com.example.cherrypickserver.article.domain.ArticleLikeRepository;
-import com.example.cherrypickserver.article.domain.ArticlePhoto;
-import com.example.cherrypickserver.article.domain.ArticleRepository;
+import com.example.cherrypickserver.article.domain.*;
 import com.example.cherrypickserver.article.dto.assembler.ArticleAssembler;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
@@ -24,7 +21,7 @@ import java.text.ParseException;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleServiceImpl implements ArticleService{
+public class ArticleServiceImpl implements ArticleService {
 
   private final ArticleLikeRepository articleLikeRepository;
   private final MemberRepository memberRepository;
@@ -40,14 +37,12 @@ public class ArticleServiceImpl implements ArticleService{
   }
 
   @Override
-  public DetailArticleRes detailArticle(Long articleId)
-  {
+  public DetailArticleRes detailArticle(Long articleId) {
     return DetailArticleRes.toDto(articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new));
   }
 
   @Override
-  public Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable)
-  {
+  public Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable) {
     pageable = articleAssembler.setSortType(pageable, sortType);
 
     if (StringUtils.hasText(cond)) {
@@ -60,11 +55,14 @@ public class ArticleServiceImpl implements ArticleService{
 
   @Override
   @Transactional
-  public void likeArticle(Long articleId, Long memberId) {
+  public void attendArticle(Long articleId, Long memberId, String type) {
     Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
     Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
-    articleLikeRepository.save(articleAssembler.createArticleLike(member, article));
-    article.likeArticle();
+
+    AttentionType attentionType = AttentionType.getAttentionTypeByName(type);
+    articleLikeRepository.save(articleAssembler.toEntityAttention(member, article, attentionType));
+
+    if (attentionType == AttentionType.LIKE) article.likeArticle();
   }
 
 
