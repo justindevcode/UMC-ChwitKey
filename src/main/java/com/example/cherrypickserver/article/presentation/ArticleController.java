@@ -58,4 +58,6 @@ public class ArticleController {
     articleService.attendArticle(articleId, memberId, type);
     return ResponseCustom.OK();
   }
+
+
 }

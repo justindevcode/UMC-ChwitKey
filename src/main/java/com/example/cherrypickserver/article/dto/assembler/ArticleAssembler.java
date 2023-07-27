@@ -1,7 +1,7 @@
 package com.example.cherrypickserver.article.dto.assembler;
 
 import com.example.cherrypickserver.article.domain.Article;
-import com.example.cherrypickserver.article.domain.ArticleLike;
+import com.example.cherrypickserver.article.domain.ArticleAttention;
 import com.example.cherrypickserver.article.domain.AttentionType;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.member.domain.Member;
@@ -38,8 +38,8 @@ public class ArticleAssembler {
     return pageable;
   }
 
-  public ArticleLike toEntityAttention(Member member, Article article, AttentionType attentionType) {
-    return ArticleLike.builder()
+  public ArticleAttention toEntityAttention(Member member, Article article, AttentionType attentionType) {
+    return ArticleAttention.builder()
             .member(member)
             .article(article)
             .attentionType(attentionType)

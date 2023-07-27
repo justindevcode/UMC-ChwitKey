@@ -1,7 +1,6 @@
 package com.example.cherrypickserver.article.domain;
 
 
-import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.global.entity.BaseEntity;
 import com.example.cherrypickserver.member.domain.Member;
 import lombok.AccessLevel;
@@ -14,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class ArticleLike extends BaseEntity {
+public class ArticleAttention extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +33,7 @@ public class ArticleLike extends BaseEntity {
   private AttentionType attentionType;
 
   @Builder
-  public ArticleLike(Member member, Article article, AttentionType attentionType) {
+  public ArticleAttention(Member member, Article article, AttentionType attentionType) {
     this.member = member;
     this.article = article;
     this.attentionType = attentionType;
