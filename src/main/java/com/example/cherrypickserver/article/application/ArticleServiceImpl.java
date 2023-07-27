@@ -35,9 +35,9 @@ public class ArticleServiceImpl implements ArticleService{
   }
 
   @Override
-  public DetailArticleRes detailArticle(Long articleIdx)
+  public DetailArticleRes detailArticle(Long articleId)
   {
-    return DetailArticleRes.toDto(articleRepository.findByIdAndIsEnable(articleIdx, true).orElseThrow(ArticleNotFoundException::new));
+    return DetailArticleRes.toDto(articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new));
   }
 
   @Override

@@ -29,9 +29,9 @@ public class ArticleController {
 
   // 기사 상세 조회
   @ResponseBody
-  @GetMapping("/detail/{articleIdx}")
-  public ResponseCustom<DetailArticleRes> detailArticle(@PathVariable Long articleIdx) {
-    return ResponseCustom.OK(articleService.detailArticle(articleIdx));
+  @GetMapping("/detail/{articleId}")
+  public ResponseCustom<DetailArticleRes> detailArticle(@PathVariable Long articleId) {
+    return ResponseCustom.OK(articleService.detailArticle(articleId));
   }
 
   //  // 기사 검색 (커맨드 + 정렬)
