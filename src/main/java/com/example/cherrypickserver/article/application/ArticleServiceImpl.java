@@ -5,6 +5,7 @@ import com.example.cherrypickserver.article.dto.assembler.ArticleAssembler;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
+import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import com.example.cherrypickserver.article.exception.AlreadyAttendArticleException;
 import com.example.cherrypickserver.article.exception.ArticleAttentionNotFoundException;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
@@ -76,6 +77,13 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleAttention articleAttention = articleAttentionRepository.findByArticleIdAndMemberIdAndAttentionTypeAndIsEnable(articleId, memberId, AttentionType.getAttentionTypeByName(type), true).orElseThrow(ArticleAttentionNotFoundException::new);
     if(articleAttention.getAttentionType() == AttentionType.LIKE) articleAttention.getArticle().unLikeArticle();
     articleAttention.delete();
+  }
+
+  @Override
+  public ShareArticleRes shareArticle(Long articleId) {
+    Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
+
+    return null;
   }
 
 

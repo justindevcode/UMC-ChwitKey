@@ -1,6 +1,7 @@
 package com.example.cherrypickserver.article.presentation;
 
 import com.example.cherrypickserver.article.application.ArticleService;
+import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
@@ -70,6 +71,16 @@ public class ArticleController {
   {
     articleService.unAttendArticle(articleId, memberId, type);
     return ResponseCustom.OK();
+  }
+
+  // 기사 공유
+  @ResponseBody
+  @GetMapping("/share/{articleId}")
+  public ResponseCustom<ShareArticleRes> shareArticle(
+          @PathVariable Long articleId
+  )
+  {
+    return ResponseCustom.OK(articleService.shareArticle(articleId));
   }
 
 }
