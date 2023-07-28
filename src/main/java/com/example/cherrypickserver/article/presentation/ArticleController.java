@@ -1,6 +1,7 @@
 package com.example.cherrypickserver.article.presentation;
 
 import com.example.cherrypickserver.article.application.ArticleService;
+import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
@@ -29,9 +30,9 @@ public class ArticleController {
 
   // 기사 상세 조회
   @ResponseBody
-  @GetMapping("/detail/{articleIdx}")
-  public ResponseCustom<DetailArticleRes> detailArticle(@PathVariable Long articleIdx) {
-    return ResponseCustom.OK(articleService.detailArticle(articleIdx));
+  @GetMapping("/detail/{articleId}")
+  public ResponseCustom<DetailArticleRes> detailArticle(@PathVariable Long articleId) {
+    return ResponseCustom.OK(articleService.detailArticle(articleId));
   }
 
   //  // 기사 검색 (커맨드 + 정렬)
@@ -45,4 +46,41 @@ public class ArticleController {
   {
     return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
   }
+
+  // 좋아요 + 스크랩
+  @ResponseBody
+  @GetMapping("/like/{articleId}")
+  public ResponseCustom<Void> attendArticle(
+          @PathVariable Long articleId,
+          @RequestParam Long memberId,
+          @RequestParam String type
+          )
+  {
+    articleService.attendArticle(articleId, memberId, type);
+    return ResponseCustom.OK();
+  }
+
+  // 좋아요 취소 + 스크랩 취소
+  @ResponseBody
+  @GetMapping("/unlike/{articleId}")
+  public ResponseCustom<Void> unAttendArticle(
+          @PathVariable Long articleId,
+          @RequestParam Long memberId,
+          @RequestParam String type
+  )
+  {
+    articleService.unAttendArticle(articleId, memberId, type);
+    return ResponseCustom.OK();
+  }
+
+  // 기사 공유
+  @ResponseBody
+  @GetMapping("/share/{articleId}")
+  public ResponseCustom<ShareArticleRes> shareArticle(
+          @PathVariable Long articleId
+  )
+  {
+    return ResponseCustom.OK(articleService.shareArticle(articleId));
+  }
+
 }

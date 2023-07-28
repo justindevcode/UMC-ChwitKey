@@ -3,6 +3,7 @@ package com.example.cherrypickserver.article.application;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
+import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,4 +16,10 @@ public interface ArticleService {
   DetailArticleRes detailArticle(Long articleIdx);
 
   Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable);
+
+  void attendArticle(Long articleId, Long memberId, String type);
+
+  void unAttendArticle(Long articleId, Long memberId, String type);
+
+  ShareArticleRes shareArticle(Long articleId);
 }

@@ -1,12 +1,14 @@
 package com.example.cherrypickserver.article.dto.assembler;
 
 import com.example.cherrypickserver.article.domain.Article;
+import com.example.cherrypickserver.article.domain.ArticleAttention;
+import com.example.cherrypickserver.article.domain.AttentionType;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
+import com.example.cherrypickserver.member.domain.Member;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,5 +36,13 @@ public class ArticleAssembler {
     else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
     else pageable = PageRequest.of(0, pageable.getPageSize());
     return pageable;
+  }
+
+  public ArticleAttention toEntityAttention(Member member, Article article, AttentionType attentionType) {
+    return ArticleAttention.builder()
+            .member(member)
+            .article(article)
+            .attentionType(attentionType)
+            .build();
   }
 }
