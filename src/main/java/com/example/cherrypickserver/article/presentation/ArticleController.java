@@ -6,6 +6,10 @@ import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
-
+@Tag(name = "Article Controller", description = "기사 관련 컨드롤러") // Contoller 정보 설정
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
 @RestController
