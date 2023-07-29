@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
   Optional<Article> findByIdAndIsEnable(Long articleIdx, Boolean status);
 
-  Page<Article> findByTitleContainingOrContentContainingAndIsEnable(String titleCond, String contentCond, Boolean isEnable, Pageable pageable);
+  Page<Article> findByTitleContainingOrContentsContainingAndIsEnable(String titleCond, String contentCond, Boolean isEnable, Pageable pageable);
 
   Page<Article> findByIsEnable(Boolean isEnable, Pageable pageable);
 }

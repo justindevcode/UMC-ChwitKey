@@ -5,7 +5,6 @@ import com.example.cherrypickserver.article.dto.assembler.ArticleAssembler;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
-import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import com.example.cherrypickserver.article.exception.AlreadyAttendArticleException;
 import com.example.cherrypickserver.article.exception.ArticleAttentionNotFoundException;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
@@ -49,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
     pageable = articleAssembler.setSortType(pageable, sortType);
 
     if (StringUtils.hasText(cond)) {
-      Page<Article> articles = articleRepository.findByTitleContainingOrContentContainingAndIsEnable(cond, cond, true, pageable);
+      Page<Article> articles = articleRepository.findByTitleContainingOrContentsContainingAndIsEnable(cond, cond, true, pageable);
       return articles.map(SearchArticleRes::toDto);
     }
     Page<Article> articles = articleRepository.findByIsEnable(true, pageable);

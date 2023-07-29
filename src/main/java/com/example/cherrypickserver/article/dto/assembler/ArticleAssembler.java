@@ -3,6 +3,7 @@ package com.example.cherrypickserver.article.dto.assembler;
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.domain.ArticleAttention;
 import com.example.cherrypickserver.article.domain.AttentionType;
+import com.example.cherrypickserver.article.domain.Industry;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.member.domain.Member;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +17,14 @@ import java.util.Date;
 
 @Component
 public class ArticleAssembler {
-  public Article toEntity(CreateArticleReq createArticleReq) throws ParseException {
+  public Article toEntity(CreateArticleReq createArticleReq) {
     return Article.builder()
             .title(createArticleReq.getTitle())
-            .content(createArticleReq.getContent())
+            .contents(createArticleReq.getContent())
             .publisher(createArticleReq.getPublisher())
             .reporter(createArticleReq.getReporter())
-            .registeredAt(parseDate(createArticleReq.getRegisteredAt()))
+            .industry(Industry.fromValue(createArticleReq.getIndustry()))
+            .uploadedAt(createArticleReq.getUploadedAt())
             .build();
   }
 
