@@ -20,26 +20,33 @@ public class Article extends BaseEntity {
   private Long id;
 
   @Column(columnDefinition="TEXT")
-  private String content;
+  private String contents;
+
+  private String title;
+
+  private String publisher;
+  private String reporter;
+  private String uploadDate;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "industry")
+  private Industry industry;
+
 
   @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
   private List<ArticlePhoto> articlePhoto = new ArrayList<>();
 
   @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
-  private Integer likeCount = 0;
+  private int likeCount = 0;
 
-  private String title;
-  private String publisher;
-  private String reporter;
-  private Date registeredAt;
-
-  @Builder
-  public Article(String content, String title, String publisher, String reporter, Date registeredAt) {
-    this.content = content;
+  public Article(String contents, String title, String publisher, String reporter, String uploadDate, int likeCount, Industry industry) {
+    this.contents = contents;
     this.title = title;
     this.publisher = publisher;
     this.reporter = reporter;
-    this.registeredAt = registeredAt;
+    this.uploadDate = uploadDate;
+    this.likeCount = likeCount;
+    this.industry = industry;
   }
 
   public void likeArticle() {
