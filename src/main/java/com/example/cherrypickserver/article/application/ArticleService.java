@@ -20,6 +20,4 @@ public interface ArticleService {
   void attendArticle(Long articleId, Long memberId, String type);
 
   void unAttendArticle(Long articleId, Long memberId, String type);
-
-  ShareArticleRes shareArticle(Long articleId);
 }

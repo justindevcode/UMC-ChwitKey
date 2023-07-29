@@ -78,13 +78,4 @@ public class ArticleServiceImpl implements ArticleService {
     if(articleAttention.getAttentionType() == AttentionType.LIKE) articleAttention.getArticle().unLikeArticle();
     articleAttention.delete();
   }
-
-  @Override
-  public ShareArticleRes shareArticle(Long articleId) {
-    Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
-
-    return null;
-  }
-
-
 }
