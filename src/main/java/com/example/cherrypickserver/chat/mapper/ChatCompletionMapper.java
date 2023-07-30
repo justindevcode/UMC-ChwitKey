@@ -1,6 +1,8 @@
 package com.example.cherrypickserver.chat.mapper;
 
 import com.example.cherrypickserver.article.domain.Article;
+import com.example.cherrypickserver.chat.domain.SelectType;
+import com.example.cherrypickserver.chat.exception.SelectTypeNotFoundException;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import org.springframework.stereotype.Component;
@@ -20,10 +22,31 @@ public class ChatCompletionMapper {
                 .build();
     }
 
-    public ChatCompletionRequest fromEntity(Article article) {
+    public ChatCompletionRequest fromEntity(Article article, SelectType selectType) {
+
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setRole("user");
+
+        switch (selectType) {
+            case SUMMARY:
+                chatMessage.setContent("다음 기사 내용을 요약해줘 " + article.getContents());
+                break;
+
+            case TRANSLATION:
+                chatMessage.setContent("다음 기사 내용을 영어로 번역해줘 " + article.getContents());
+                break;
+
+            case KEYWORD:
+                chatMessage.setContent("다음 기사 내용에서 중요한 키워드만 뽑아줘 " + article.getContents());
+                break;
+
+            default:
+                throw new SelectTypeNotFoundException();
+        }
+
         return ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
-                .messages(List.of(new ChatMessage("user", "다음 기사 내용을 요약해줘 " + article.getContents())))
+                .messages(List.of(chatMessage))
                 .build();
     }
 }

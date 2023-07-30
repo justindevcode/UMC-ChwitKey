@@ -2,14 +2,13 @@ package com.example.cherrypickserver.chat.application;
 
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.domain.ArticleRepository;
+import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
 import com.example.cherrypickserver.chat.domain.*;
 import com.example.cherrypickserver.chat.dto.GptFullResponse;
 import com.example.cherrypickserver.chat.dto.GptRequest;
 import com.example.cherrypickserver.chat.dto.GptResponse;
-import com.example.cherrypickserver.chat.mapper.ChatCompletionMapper;
-import com.example.cherrypickserver.chat.mapper.ChatContentMapper;
-import com.example.cherrypickserver.chat.mapper.ChatMapper;
-import com.example.cherrypickserver.chat.mapper.ChatSummaryMapper;
+import com.example.cherrypickserver.chat.exception.ChatSelectNotFoundException;
+import com.example.cherrypickserver.chat.mapper.*;
 import com.example.cherrypickserver.member.domain.Member;
 import com.example.cherrypickserver.member.domain.MemberRepository;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,12 +30,12 @@ public class ChatServiceImpl implements ChatService {
     private final ArticleRepository articleRepository;
     private final ChatRepository chatRepository;
     private final ChatContentRepository chatContentRepository;
-    private final ChatSummaryRepository chatSummaryRepository;
+    private final ChatSelectRepository chatSelectRepository;
 
     private final ChatMapper chatMapper;
     private final ChatContentMapper chatContentMapper;
     private final ChatCompletionMapper chatCompletionMapper;
-    private final ChatSummaryMapper chatSummaryMapper;
+    private final ChatSelectMapper chatSelectMapper;
 
     private final OpenAiService openAiService;
 
@@ -79,22 +77,23 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public GptResponse chatSummary(Long articleId) {
+    public GptResponse chatSelect(Long articleId, String type) {
 
-        Article article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new NoSuchElementException()); //추후 예외처리 수정
+        Article article = articleRepository.findByIdAndIsEnable(articleId, true)
+                .orElseThrow(ArticleNotFoundException::new);
+        SelectType selectType = SelectType.getSelectTypeByName(type);
 
-        if (!chatSummaryRepository.existsByArticle(article)) {
-            ChatCompletionRequest chatCompletionRequest = chatCompletionMapper.fromEntity(article);
+        if (!chatSelectRepository.existsByArticleAndSelectType(article, selectType)) {
+            ChatCompletionRequest chatCompletionRequest = chatCompletionMapper.fromEntity(article, selectType);
             ChatCompletionResult chatCompletionResult = openAiService.createChatCompletion(chatCompletionRequest);
 
-            chatSummaryRepository.save(chatSummaryMapper.toEntity(chatCompletionResult, article));
+            chatSelectRepository.save(chatSelectMapper.toEntity(chatCompletionResult, article, selectType));
         }
 
-        ChatSummary chatSummary = chatSummaryRepository.findByArticle(article)
-                .orElseThrow(() -> new NoSuchElementException()); //추후 예외처리 수정
+        ChatSelect chatSelect = chatSelectRepository.findByArticleAndSelectType(article, selectType)
+                .orElseThrow(ChatSelectNotFoundException::new);
 
-        return chatSummaryMapper.fromEntity(chatSummary);
+        return chatSelectMapper.fromEntity(chatSelect);
     }
 
     public Chat createChatAndContent(Member member, Article article) {
