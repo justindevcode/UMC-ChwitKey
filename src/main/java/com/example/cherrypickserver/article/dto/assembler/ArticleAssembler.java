@@ -1,9 +1,6 @@
 package com.example.cherrypickserver.article.dto.assembler;
 
-import com.example.cherrypickserver.article.domain.Article;
-import com.example.cherrypickserver.article.domain.ArticleAttention;
-import com.example.cherrypickserver.article.domain.AttentionType;
-import com.example.cherrypickserver.article.domain.Industry;
+import com.example.cherrypickserver.article.domain.*;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.member.domain.Member;
 import org.springframework.data.domain.PageRequest;
@@ -33,9 +30,10 @@ public class ArticleAssembler {
   }
 
   public Pageable setSortType(Pageable pageable, String sortType) {
-    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").ascending());
-    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").descending());
-    else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
+    SortType type = SortType.getSortTypeByName(sortType);
+    if(type == SortType.ASC) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").ascending());
+    else if(type == SortType.DESC) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").descending());
+    else if(type == SortType.LIKE) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
     else pageable = PageRequest.of(0, pageable.getPageSize());
     return pageable;
   }

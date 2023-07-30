@@ -15,5 +15,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   Page<Article> findByIsEnable(Boolean isEnable, Pageable pageable);
 
-  Page<Article> findByIndustryContainingOrTitleContainingOrContentsContainingAndIsEnable(Industry industry, String titleCond, String contentCond, Boolean isEnable, Pageable pageable);
+  Page<Article> findByIndustryOrTitleContainingOrContentsContainingAndIsEnable(Industry industry, String titleCond, String contentCond, Boolean isEnable, Pageable pageable);
 }

@@ -90,7 +90,7 @@ public class ArticleServiceImpl implements ArticleService {
   public Page<SearchArticleRes> searchArticleByIndustry(Long memberId, String industry, String sortType, Pageable pageable) {
     memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
     pageable = articleAssembler.setSortType(pageable, sortType);
-    Page<Article> articles = articleRepository.findByIndustryContainingOrTitleContainingOrContentsContainingAndIsEnable(Industry.fromValue(industry), industry, industry, true, pageable);
+    Page<Article> articles = articleRepository.findByIndustryOrTitleContainingOrContentsContainingAndIsEnable(Industry.fromValue(industry), industry, industry, true, pageable);
     return articles.map(SearchArticleRes::toDto);
   }
 }
