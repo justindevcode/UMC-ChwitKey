@@ -17,14 +17,14 @@ import java.util.Date;
 
 @Component
 public class ArticleAssembler {
-  public Article toEntity(CreateArticleReq createArticleReq) {
+  public Article toEntity(CreateArticleReq createArticleReq) throws ParseException {
     return Article.builder()
             .title(createArticleReq.getTitle())
             .contents(createArticleReq.getContent())
             .publisher(createArticleReq.getPublisher())
             .reporter(createArticleReq.getReporter())
             .industry(Industry.fromValue(createArticleReq.getIndustry()))
-            .uploadedAt(createArticleReq.getUploadedAt())
+            .uploadedAt(parseDate(createArticleReq.getUploadedAt()))
             .build();
   }
 
@@ -33,8 +33,8 @@ public class ArticleAssembler {
   }
 
   public Pageable setSortType(Pageable pageable, String sortType) {
-    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").ascending());
-    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").descending());
+    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").ascending());
+    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").descending());
     else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
     else pageable = PageRequest.of(0, pageable.getPageSize());
     return pageable;

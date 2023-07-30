@@ -14,7 +14,7 @@ public class DetailArticleRes {
   private String title;
   private String content;
   private String publisher;
-  private String registeredAt;
+  private Date uploadedAt;
   private String reporter;
   private List<DetailArticlePhotoRes> articlePhoto;
 
@@ -23,7 +23,7 @@ public class DetailArticleRes {
             .title(article.getTitle())
             .content(article.getContents())
             .publisher(article.getPublisher())
-            .registeredAt(article.getUploadedAt())
+            .uploadedAt(article.getUploadedAt())
             .reporter(article.getReporter())
             .articlePhoto(article.getArticlePhoto().stream().map(m -> DetailArticlePhotoRes.toDto(m.getArticleImgUrl())).collect(Collectors.toList()))
             .build();

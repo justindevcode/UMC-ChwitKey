@@ -20,4 +20,8 @@ public interface ArticleService {
   void attendArticle(Long articleId, Long memberId, String type);
 
   void unAttendArticle(Long articleId, Long memberId, String type);
+
+  Page<SearchArticleRes> searchArticleByKeyword(Long memberId, String keyword, String sortType, Pageable pageable);
+
+  Page<SearchArticleRes> searchArticleByIndustry(Long memberId, String industry, String sortType, Pageable pageable);
 }

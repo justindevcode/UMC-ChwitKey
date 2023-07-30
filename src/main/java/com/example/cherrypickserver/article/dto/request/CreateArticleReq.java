@@ -1,5 +1,6 @@
 package com.example.cherrypickserver.article.dto.request;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Getter;
 
 import java.util.List;

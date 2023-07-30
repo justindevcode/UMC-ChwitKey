@@ -28,7 +28,7 @@ public class ArticleController {
   private final ArticleService articleService;
 
   // 기사 추가
-  @Operation(summary = "기사 추가 요청", description = "기사 정보가 저장됩니다.", tags = {"Article Controller"})
+  @Operation(summary = "기사 추가 요청", description = "기사 정보가 저장됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 추가 성공"),
   })
@@ -39,7 +39,7 @@ public class ArticleController {
   }
 
   // 기사 상세 조회
-  @Operation(summary = "기사 상세조회 요청", description = "기사 상세 정보를 조회합니다.", tags = {"Article Controller"})
+  @Operation(summary = "기사 상세조회 요청", description = "기사 상세 정보를 조회합니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 상세조회 성공"),
           @ApiResponse(responseCode = "404", description = "존재하지 않는 기사"),
@@ -51,7 +51,7 @@ public class ArticleController {
   }
 
   //  // 기사 검색 (커맨드 + 정렬)
-  @Operation(summary = "기사 검색 요청", description = "커맨드와 정렬에 의한 검색 결과를 조회합니다.", tags = {"Article Controller"})
+  @Operation(summary = "기사 검색 요청", description = "커맨드와 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 오름차순, 내림차순, 인기순(ASC, DESC, LIKE)으로 구분됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
@@ -66,8 +66,42 @@ public class ArticleController {
     return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
   }
 
+  // 기사 검색 (키워드 + 정렬)
+  @Operation(summary = "기사 검색 요청", description = "키워드와 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 오름차순, 내림차순, 인기순(ASC, DESC, LIKE)으로 구분됩니다.")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
+  })
+  @ResponseBody
+  @PostMapping("/search/keyword")
+  public ResponseCustom<Page<SearchArticleRes>> searchArticleByKeyword(
+          @RequestParam Long memberId,
+          @RequestParam String sortType,
+          @RequestParam String keyword,
+          Pageable pageable
+  )
+  {
+    return ResponseCustom.OK(articleService.searchArticleByKeyword(memberId, keyword, sortType, pageable));
+  }
+
+  // 기사 검색 (직군 + 정렬)
+  @Operation(summary = "기사 검색 요청", description = "직군과 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 오름차순, 내림차순, 인기순(ASC, DESC, LIKE)으로 구분됩니다.")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
+  })
+  @ResponseBody
+  @PostMapping("/search/industry")
+  public ResponseCustom<Page<SearchArticleRes>> searchArticleByIndustry(
+          @RequestParam Long memberId,
+          @RequestParam String sortType,
+          @RequestParam String industry,
+          Pageable pageable
+  )
+  {
+    return ResponseCustom.OK(articleService.searchArticleByIndustry(memberId, industry, sortType, pageable));
+  }
+
   // 좋아요 + 스크랩
-  @Operation(summary = "관심 기사 요청", description = "관심 기사 등록을 요청합니다. type(like, scrap)에 따라 '좋아요'와 '스크랩' 요청으로 구분됩니다.", tags = {"Article Controller"})
+  @Operation(summary = "관심 기사 요청", description = "관심 기사 등록을 요청합니다. type(like, scrap)에 따라 '좋아요'와 '스크랩' 요청으로 구분됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "관심 기사 요청 성공"),
           @ApiResponse(responseCode = "404", description = "존재하지 않는 기사"),
@@ -88,7 +122,7 @@ public class ArticleController {
   }
 
   // 좋아요 취소 + 스크랩 취소
-  @Operation(summary = "관심 기사 취소 요청", description = "관심 등록 취소를 요청합니다. type 파라미터에 대한 설명은 '관심 기사 등록' 요청을 참조해주세요.", tags = {"Article Controller"})
+  @Operation(summary = "관심 기사 취소 요청", description = "관심 등록 취소를 요청합니다. type 파라미터에 대한 설명은 '관심 기사 등록' 요청을 참조해주세요.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "관심 등록 취소 성공"),
           @ApiResponse(responseCode = "404", description = "좋아요 또는 스크랩한 기사가 아님"),

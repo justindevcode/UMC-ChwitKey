@@ -28,7 +28,7 @@ public class Article extends BaseEntity {
 
   private String reporter;
 
-  private String uploadedAt;
+  private Date uploadedAt;
 
   @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
   private List<ArticlePhoto> articlePhoto = new ArrayList<>();
@@ -41,7 +41,7 @@ public class Article extends BaseEntity {
   private int likeCount = 0;
 
   @Builder
-  public Article(String contents, String title, String publisher, String reporter, String uploadedAt, int likeCount, Industry industry) {
+  public Article(String contents, String title, String publisher, String reporter, Date uploadedAt, int likeCount, Industry industry) {
     this.contents = contents;
     this.title = title;
     this.publisher = publisher;

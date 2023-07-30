@@ -77,4 +77,20 @@ public class ArticleServiceImpl implements ArticleService {
     if(articleAttention.getAttentionType() == AttentionType.LIKE) articleAttention.getArticle().unLikeArticle();
     articleAttention.delete();
   }
+
+  @Override
+  public Page<SearchArticleRes> searchArticleByKeyword(Long memberId, String keyword, String sortType, Pageable pageable) {
+    memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
+    pageable = articleAssembler.setSortType(pageable, sortType);
+    Page<Article> articles = articleRepository.findByTitleContainingOrContentsContainingAndIsEnable(keyword, keyword, true, pageable);
+    return articles.map(SearchArticleRes::toDto);
+  }
+
+  @Override
+  public Page<SearchArticleRes> searchArticleByIndustry(Long memberId, String industry, String sortType, Pageable pageable) {
+    memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
+    pageable = articleAssembler.setSortType(pageable, sortType);
+    Page<Article> articles = articleRepository.findByIndustryContainingOrTitleContainingOrContentsContainingAndIsEnable(Industry.fromValue(industry), industry, industry, true, pageable);
+    return articles.map(SearchArticleRes::toDto);
+  }
 }

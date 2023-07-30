@@ -16,7 +16,7 @@ public class SearchArticleRes {
   private String content;
   private String publisher;
   private String reporter;
-  private String uploadedAt;
+  private Date uploadedAt;
   private List<String> articlePhoto;
 
   public static SearchArticleRes toDto(Article article) {
