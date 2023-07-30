@@ -1,9 +1,6 @@
 package com.example.cherrypickserver.article.presentation;
 
-import com.example.cherrypickserver.article.exception.AlreadyAttendArticleException;
-import com.example.cherrypickserver.article.exception.ArticleAttentionNotFoundException;
-import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
-import com.example.cherrypickserver.article.exception.AttentionTypeNotFoundException;
+import com.example.cherrypickserver.article.exception.*;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +40,18 @@ public class ArticleExceptionController {
   public ResponseCustom<?> catchArticleAttentionNotFoundException(ArticleAttentionNotFoundException e) {
     log.error(e.getMessage());
     return ResponseCustom.BAD_REQUEST(e.getMessage());
+  }
+
+  @ExceptionHandler(SortTypeNotFoundException.class)
+  public ResponseCustom<?> catchSortTypeNotFoundException(SortTypeNotFoundException e) {
+    log.error(e.getMessage());
+    return ResponseCustom.NOT_FOUND(e.getMessage());
+  }
+
+  @ExceptionHandler(IndustryNotFoundException.class)
+  public ResponseCustom<?> catchIndustryNotFoundException(IndustryNotFoundException e) {
+    log.error(e.getMessage());
+    return ResponseCustom.NOT_FOUND(e.getMessage());
   }
 }
 

@@ -7,6 +7,7 @@ import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -46,20 +47,20 @@ public class ArticleController {
   })
   @ResponseBody
   @GetMapping("/detail/{articleId}")
-  public ResponseCustom<DetailArticleRes> detailArticle(@PathVariable Long articleId) {
+  public ResponseCustom<DetailArticleRes> detailArticle(@Parameter(description = "기사 id") @PathVariable Long articleId) {
     return ResponseCustom.OK(articleService.detailArticle(articleId));
   }
 
   //  // 기사 검색 (커맨드 + 정렬)
-  @Operation(summary = "기사 검색 요청", description = "커맨드와 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 오름차순, 내림차순, 인기순(ASC, DESC, LIKE)으로 구분됩니다.")
+  @Operation(summary = "기사 검색 요청", description = "커맨드와 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 sortType(ASC, DESC, LIKE) 오름차순, 내림차순, 인기순으로 구분됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
   @ResponseBody
   @GetMapping("/search")
   public ResponseCustom<Page<SearchArticleRes>> searchArticle(
-          @RequestParam String cond,
-          @RequestParam String sortType,
+          @Parameter(description = "검색어") @RequestParam String cond,
+          @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)")@RequestParam String sortType,
           Pageable pageable
   )
   {
@@ -67,16 +68,16 @@ public class ArticleController {
   }
 
   // 기사 검색 (키워드 + 정렬)
-  @Operation(summary = "기사 검색 요청", description = "키워드와 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 오름차순, 내림차순, 인기순(ASC, DESC, LIKE)으로 구분됩니다.")
+  @Operation(summary = "기사 검색 요청", description = "키워드와 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 sortType(ASC, DESC, LIKE) 오름차순, 내림차순, 인기순으로 구분됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
   @ResponseBody
-  @PostMapping("/search/keyword")
+  @GetMapping("/search/keyword")
   public ResponseCustom<Page<SearchArticleRes>> searchArticleByKeyword(
-          @RequestParam Long memberId,
-          @RequestParam String sortType,
-          @RequestParam String keyword,
+          @Parameter(description = "멤버 id")@RequestParam Long memberId,
+          @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
+          @Parameter(description = "멤버가 등록한 키워드") @RequestParam String keyword,
           Pageable pageable
   )
   {
@@ -84,16 +85,16 @@ public class ArticleController {
   }
 
   // 기사 검색 (직군 + 정렬)
-  @Operation(summary = "기사 검색 요청", description = "직군과 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 오름차순, 내림차순, 인기순(ASC, DESC, LIKE)으로 구분됩니다.")
+  @Operation(summary = "기사 검색 요청", description = "직군과 정렬에 의한 기사 검색 결과를 조회합니다. 정렬은 sortType(ASC, DESC, LIKE)에 따라 오름차순, 내림차순, 인기순으로 구분됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
   @ResponseBody
-  @PostMapping("/search/industry")
+  @GetMapping("/search/industry")
   public ResponseCustom<Page<SearchArticleRes>> searchArticleByIndustry(
-          @RequestParam Long memberId,
-          @RequestParam String sortType,
-          @RequestParam String industry,
+          @Parameter(description = "멤버 id") @RequestParam Long memberId,
+          @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
+          @Parameter(description = "멤버가 등록한 직군") @RequestParam String industry,
           Pageable pageable
   )
   {
@@ -110,11 +111,11 @@ public class ArticleController {
           @ApiResponse(responseCode = "400", description = "이미 좋아요 또는 스크랩한 기사"),
   })
   @ResponseBody
-  @GetMapping("/like/{articleId}")
+  @PostMapping("/like/{articleId}")
   public ResponseCustom<Void> attendArticle(
-          @PathVariable Long articleId,
-          @RequestParam Long memberId,
-          @RequestParam String type
+          @Parameter(description = "기사 id") @PathVariable Long articleId,
+          @Parameter(description = "멤버 id") @RequestParam Long memberId,
+          @Parameter(description = "좋아요(like), 스크랩(scrap)") @RequestParam String type
           )
   {
     articleService.attendArticle(articleId, memberId, type);
@@ -122,7 +123,7 @@ public class ArticleController {
   }
 
   // 좋아요 취소 + 스크랩 취소
-  @Operation(summary = "관심 기사 취소 요청", description = "관심 등록 취소를 요청합니다. type 파라미터에 대한 설명은 '관심 기사 등록' 요청을 참조해주세요.")
+  @Operation(summary = "관심 기사 취소 요청", description = "관심 등록 취소를 요청합니다. type(like, scrap)에 따라 '좋아요'와 '스크랩' 취소 요청으로 구분됩니다.")
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "관심 등록 취소 성공"),
           @ApiResponse(responseCode = "404", description = "좋아요 또는 스크랩한 기사가 아님"),
@@ -131,9 +132,9 @@ public class ArticleController {
   @ResponseBody
   @DeleteMapping("/unlike/{articleId}")
   public ResponseCustom<Void> unAttendArticle(
-          @PathVariable Long articleId,
-          @RequestParam Long memberId,
-          @RequestParam String type
+          @Parameter(description = "기사 id") @PathVariable Long articleId,
+          @Parameter(description = "멤버 id") @RequestParam Long memberId,
+          @Parameter(description = "좋아요(like), 스크랩(scrap)") @RequestParam String type
   )
   {
     articleService.unAttendArticle(articleId, memberId, type);

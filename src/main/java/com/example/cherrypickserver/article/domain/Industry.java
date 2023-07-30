@@ -1,5 +1,7 @@
 package com.example.cherrypickserver.article.domain;
 
+import com.example.cherrypickserver.article.exception.IndustryNotFoundException;
+
 public enum Industry {
 	STEEL("steel"),
 	PETROLEUM_CHEMICAL("Petroleum/Chemical"),
@@ -34,6 +36,6 @@ public enum Industry {
 				return industry;
 			}
 		}
-		throw new IllegalArgumentException("Invalid Industry value: " + value);
+		throw new IndustryNotFoundException();
 	}
 }
