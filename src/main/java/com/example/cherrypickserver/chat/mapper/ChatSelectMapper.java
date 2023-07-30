@@ -1,7 +1,8 @@
 package com.example.cherrypickserver.chat.mapper;
 
 import com.example.cherrypickserver.article.domain.Article;
-import com.example.cherrypickserver.chat.domain.ChatSummary;
+import com.example.cherrypickserver.chat.domain.ChatSelect;
+import com.example.cherrypickserver.chat.domain.SelectType;
 import com.example.cherrypickserver.chat.dto.GptResponse;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
@@ -9,22 +10,23 @@ import com.theokanning.openai.completion.chat.ChatMessage;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChatSummaryMapper {
+public class ChatSelectMapper {
 
-    public GptResponse fromEntity(ChatSummary chatSummary) {
+    public GptResponse fromEntity(ChatSelect chatSelect) {
         return GptResponse.builder()
-                .answer(chatSummary.getSummary())
+                .answer(chatSelect.getContent())
                 .build();
     }
 
-    public ChatSummary toEntity(ChatCompletionResult chatCompletionResult, Article article) {
+    public ChatSelect toEntity(ChatCompletionResult chatCompletionResult, Article article, SelectType selectType) {
 
         ChatCompletionChoice chatCompletionChoice = chatCompletionResult.getChoices().get(0);
         ChatMessage chatMessage = chatCompletionChoice.getMessage();
 
-        return ChatSummary.builder()
-                .summary(chatMessage.getContent())
+        return ChatSelect.builder()
+                .content(chatMessage.getContent())
                 .article(article)
+                .selectType(selectType)
                 .build();
     }
 }

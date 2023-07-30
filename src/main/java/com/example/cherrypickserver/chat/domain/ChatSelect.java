@@ -12,23 +12,28 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class ChatSummary extends BaseEntity {
+public class ChatSelect extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "chat_summary_id")
-    private Long id;
+    @Column(name = "chat_select_id")
+    Long id;
 
     @Column(columnDefinition="TEXT", nullable = false)
-    private String summary;
+    private String content;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SelectType selectType;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "article_id")
     private Article article;
 
     @Builder
-    public ChatSummary(String summary, Article article) {
-        this.summary = summary;
+    public ChatSelect(String content, SelectType selectType, Article article) {
+        this.content = content;
+        this.selectType = selectType;
         this.article = article;
     }
 }

@@ -6,5 +6,5 @@ import com.example.cherrypickserver.chat.dto.GptResponse;
 public interface ChatService {
     GptResponse chatCompletion(GptRequest gptRequest);
 
-    GptResponse chatSummary(Long articleId);
+    GptResponse chatSelect(Long articleId, String selectType);
 }
