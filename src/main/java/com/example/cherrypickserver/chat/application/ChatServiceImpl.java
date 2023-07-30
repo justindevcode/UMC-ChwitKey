@@ -7,10 +7,13 @@ import com.example.cherrypickserver.chat.domain.*;
 import com.example.cherrypickserver.chat.dto.GptFullResponse;
 import com.example.cherrypickserver.chat.dto.GptRequest;
 import com.example.cherrypickserver.chat.dto.GptResponse;
+import com.example.cherrypickserver.chat.dto.request.ChatRequest;
+import com.example.cherrypickserver.chat.dto.response.ChatResponse;
 import com.example.cherrypickserver.chat.exception.ChatSelectNotFoundException;
 import com.example.cherrypickserver.chat.mapper.*;
 import com.example.cherrypickserver.member.domain.Member;
 import com.example.cherrypickserver.member.domain.MemberRepository;
+import com.example.cherrypickserver.member.exception.MemberNotFoundException;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
 import com.theokanning.openai.completion.chat.ChatMessage;
@@ -40,7 +43,29 @@ public class ChatServiceImpl implements ChatService {
     private final OpenAiService openAiService;
 
     @Override
-    public GptResponse chatCompletion(GptRequest gptRequest) {
+    public ChatResponse createChatAndContent(ChatRequest chatRequest) {
+
+        Member member = memberRepository.findByIdAndIsEnable(chatRequest.getMemberId(), true)
+                .orElseThrow(MemberNotFoundException::new);
+        Article article = articleRepository.findByIdAndIsEnable(chatRequest.getArticleId(), true)
+                .orElseThrow(ArticleNotFoundException::new);
+
+        Chat chat = chatRepository.save(chatMapper.toEntity(member, article));
+
+        //시스템 설정용 chatContent
+        String content = "당신은 '취트키'라는 어플에서 " + article.getIndustry().getValueGpt()
+                + " 분야 기사 질문에 대답하는 시스템입니다. "
+                + "모든 답변은 10초 이내로, 분야와 관련 없는 질문은 답변하지 마세요. "
+                + "영어 외 언어로의 기사 번역은 하지 마세요. "
+                + "질문자가 읽은 기사 내용은 다음과 같습니다. "
+                + article.getContents();
+        chatContentRepository.save(chatContentMapper.toEntity("system", content, chat));
+
+        return chatMapper.fromEntity(chat);
+    }
+
+    @Override
+    public GptResponse chatQuestion(GptRequest gptRequest) {
 
         Member member = memberRepository.findById(gptRequest.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException()); //추후 예외처리 수정
@@ -48,7 +73,7 @@ public class ChatServiceImpl implements ChatService {
                 .orElseThrow(() -> new IllegalArgumentException()); //추후 예외처리 수정
 
         Chat chat = chatRepository.findByMemberAndArticle(member, article)
-                .orElseGet(() -> createChatAndContent(member, article));
+                .orElseGet(() -> createChatAndChatContent(member, article));
         List<ChatContent> chatContentList = chatContentRepository.findAllByChat(chat, Sort.by("createdAt"));
 
         //Chat GPT에 넘겨줄 이전 대화 목록
@@ -96,7 +121,7 @@ public class ChatServiceImpl implements ChatService {
         return chatSelectMapper.fromEntity(chatSelect);
     }
 
-    public Chat createChatAndContent(Member member, Article article) {
+    public Chat createChatAndChatContent(Member member, Article article) {
 
         Chat chat = chatMapper.toEntity(member, article);
         chatRepository.save(chat);
