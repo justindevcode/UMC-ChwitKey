@@ -19,8 +19,8 @@ public class ChatController {
         return ResponseCustom.OK(chatService.chatCompletion(gptRequest));
     }
 
-    @GetMapping("/summary/{articleId}")
-    public ResponseCustom<GptResponse> chatSummary(@PathVariable Long articleId) {
-        return ResponseCustom.OK(chatService.chatSummary(articleId));
+    @GetMapping("/select/{articleId}")
+    public ResponseCustom<GptResponse> chatSelect(@PathVariable Long articleId, @RequestParam String type) {
+        return ResponseCustom.OK(chatService.chatSelect(articleId, type));
     }
 }
