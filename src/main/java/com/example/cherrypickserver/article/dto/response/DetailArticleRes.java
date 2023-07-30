@@ -14,16 +14,16 @@ public class DetailArticleRes {
   private String title;
   private String content;
   private String publisher;
-  private Date registeredAt;
+  private Date uploadedAt;
   private String reporter;
   private List<DetailArticlePhotoRes> articlePhoto;
 
   public static DetailArticleRes toDto(Article article) {
     return DetailArticleRes.builder()
             .title(article.getTitle())
-            .content(article.getContent())
+            .content(article.getContents())
             .publisher(article.getPublisher())
-            .registeredAt(article.getRegisteredAt())
+            .uploadedAt(article.getUploadedAt())
             .reporter(article.getReporter())
             .articlePhoto(article.getArticlePhoto().stream().map(m -> DetailArticlePhotoRes.toDto(m.getArticleImgUrl())).collect(Collectors.toList()))
             .build();

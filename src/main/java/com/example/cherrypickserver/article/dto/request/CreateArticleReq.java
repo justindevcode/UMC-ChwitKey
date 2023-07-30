@@ -1,5 +1,6 @@
 package com.example.cherrypickserver.article.dto.request;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Getter;
 
 import java.util.List;
@@ -9,7 +10,8 @@ public class CreateArticleReq {
   private String title;
   private String content;
   private String publisher;
-  private String registeredAt;
+  private String uploadedAt;
   private String reporter;
+  private String industry;
   private List<CreateArticlePhotosReq> articlePhotos;
 }

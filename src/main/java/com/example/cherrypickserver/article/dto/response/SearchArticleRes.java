@@ -16,16 +16,16 @@ public class SearchArticleRes {
   private String content;
   private String publisher;
   private String reporter;
-  private Date registeredAt;
+  private Date uploadedAt;
   private List<String> articlePhoto;
 
   public static SearchArticleRes toDto(Article article) {
     return SearchArticleRes.builder()
             .title(article.getTitle())
-            .content(article.getContent())
+            .content(article.getContents())
             .publisher(article.getPublisher())
             .reporter(article.getReporter())
-            .registeredAt(article.getRegisteredAt())
+            .uploadedAt(article.getUploadedAt())
             .articlePhoto(article.getArticlePhoto().stream().map(ArticlePhoto::getArticleImgUrl).collect(Collectors.toList()))
             .build();
   }

@@ -5,7 +5,6 @@ import com.example.cherrypickserver.article.dto.assembler.ArticleAssembler;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
-import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import com.example.cherrypickserver.article.exception.AlreadyAttendArticleException;
 import com.example.cherrypickserver.article.exception.ArticleAttentionNotFoundException;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
@@ -49,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
     pageable = articleAssembler.setSortType(pageable, sortType);
 
     if (StringUtils.hasText(cond)) {
-      Page<Article> articles = articleRepository.findByTitleContainingOrContentContainingAndIsEnable(cond, cond, true, pageable);
+      Page<Article> articles = articleRepository.findByTitleContainingOrContentsContainingAndIsEnable(cond, cond, true, pageable);
       return articles.map(SearchArticleRes::toDto);
     }
     Page<Article> articles = articleRepository.findByIsEnable(true, pageable);
@@ -77,5 +76,21 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleAttention articleAttention = articleAttentionRepository.findByArticleIdAndMemberIdAndAttentionTypeAndIsEnable(articleId, memberId, AttentionType.getAttentionTypeByName(type), true).orElseThrow(ArticleAttentionNotFoundException::new);
     if(articleAttention.getAttentionType() == AttentionType.LIKE) articleAttention.getArticle().unLikeArticle();
     articleAttention.delete();
+  }
+
+  @Override
+  public Page<SearchArticleRes> searchArticleByKeyword(Long memberId, String keyword, String sortType, Pageable pageable) {
+    memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
+    pageable = articleAssembler.setSortType(pageable, sortType);
+    Page<Article> articles = articleRepository.findByTitleContainingOrContentsContainingAndIsEnable(keyword, keyword, true, pageable);
+    return articles.map(SearchArticleRes::toDto);
+  }
+
+  @Override
+  public Page<SearchArticleRes> searchArticleByIndustry(Long memberId, String industry, String sortType, Pageable pageable) {
+    memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
+    pageable = articleAssembler.setSortType(pageable, sortType);
+    Page<Article> articles = articleRepository.findByIndustryContainingOrTitleContainingOrContentsContainingAndIsEnable(Industry.fromValue(industry), industry, industry, true, pageable);
+    return articles.map(SearchArticleRes::toDto);
   }
 }

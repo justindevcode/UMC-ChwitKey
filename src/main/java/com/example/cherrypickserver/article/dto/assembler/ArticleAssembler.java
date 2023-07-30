@@ -3,6 +3,7 @@ package com.example.cherrypickserver.article.dto.assembler;
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.domain.ArticleAttention;
 import com.example.cherrypickserver.article.domain.AttentionType;
+import com.example.cherrypickserver.article.domain.Industry;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.member.domain.Member;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +20,11 @@ public class ArticleAssembler {
   public Article toEntity(CreateArticleReq createArticleReq) throws ParseException {
     return Article.builder()
             .title(createArticleReq.getTitle())
-            .content(createArticleReq.getContent())
+            .contents(createArticleReq.getContent())
             .publisher(createArticleReq.getPublisher())
             .reporter(createArticleReq.getReporter())
-            .registeredAt(parseDate(createArticleReq.getRegisteredAt()))
+            .industry(Industry.fromValue(createArticleReq.getIndustry()))
+            .uploadedAt(parseDate(createArticleReq.getUploadedAt()))
             .build();
   }
 
@@ -31,8 +33,8 @@ public class ArticleAssembler {
   }
 
   public Pageable setSortType(Pageable pageable, String sortType) {
-    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").ascending());
-    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("registeredAt").descending());
+    if(sortType.equals("ASC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").ascending());
+    else if(sortType.equals("DESC")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").descending());
     else if(sortType.equals("LIKE")) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
     else pageable = PageRequest.of(0, pageable.getPageSize());
     return pageable;
