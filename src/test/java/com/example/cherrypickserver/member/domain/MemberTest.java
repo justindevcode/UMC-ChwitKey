@@ -12,7 +12,7 @@ class MemberTest {
     @ValueSource(strings = {"202-01-01", "20230101", "2023-0101"})
     void 유효하지_않은_생년월일은_예외가_발생한다(String birthdate) {
         // given & when & then
-        assertThatThrownBy(() -> new Member("이근우", birthdate, "M"))
+        assertThatThrownBy(() -> new Member(birthdate, "M"))
                 .isInstanceOf(NotValidBirthdateException.class)
                 .hasMessage("유효하지 않은 생년월일 입니다.");
     }
