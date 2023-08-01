@@ -18,6 +18,40 @@ spring:
       hibernate:
         format_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ENC(qf7lBciaiT8g3XhVYn+i/PyAq6nqi+CWPtEIPdQszAlfMsdlXIIwuaWr53cP7kkg)
+            client-secret: ENC(RetuLPjf6u32+kBdvp4ziHTXkpXY0FQUq6owb+TBPybExx4hQyL9qxgYrBNdsP/6)
+            redirect-uri: ENC(dgfXA6aGLX2VHOZCSpIYABRtrQFX2khCH4o8BZOiLgKW8UzkKU87/Q5q/u5bYxxAOx7mht0/BwLqNr412ixFoEvq1/w8sZlQBV4CQm/KcPutAA4P3Iv+QJdy6VArXMnc)
+            authorization-grant-type: ENC(jIb8yhXuUej6dLo4GMYaZTdJ5qEvL/9eHlXV5m+Y0QA=)
+            client-authentication-method: ENC(Y5v97pWe1W3zTNzxXqPFow==)
+            scope: ENC(XaFAnflllxuKjX5NN0v5BsH5EymZTfqKFC/Ap0r88HQ=)
+
+          naver:
+            client-id: ENC(V8YybimxtjzfJm3KE6sMfUMUVfV68cHHdKUI1XZdv0I=)
+            client-secret: ENC(yFUo3FTia2QSAC7dFZsyPAq7uvfnewed)
+            redirect-uri: ENC(C+jjfy97lDDjQHKUk1vjMv4jOCgqAFju8QCbMc908llRzliLMqf6HgcHDL40QA/q/aV3aQ3EU0p5A7YSAmioUww2eYcsqe+cO55wJrEZEiZCWb2PV2P9nKhiZr3erAWa)
+            authorization-grant-type: ENC(RKNd4gFhDjstXA+BSAipzCo+xsttUAdm8M+qB2m1lC4=)
+            scope: ENC(VdCWI/YUyCe+/eQ3MI2F2Zp/pkUGcuYE)
+            client-name: Naver
+
+        provider:
+          kakao:
+            issuer-uri: https://kauth.kakao.com
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+          naver:
+            authorization_uri: https://nid.naver.com/oauth2.0/authorize
+            token_uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user_name_attribute: response
+
 jasypt:
   encryptor:
     bean : jasyptStringEncryptor
@@ -44,6 +78,16 @@ springdoc:
       enabled: true
   cache:
     disabled: true
+
+
+jwt:
+  secret-key: ENC(dQZ/q7TpH28bAirCy2d90W9Px/J9Hut1xSwYxoluJNcXlluq/YYkpkX9n3ECUtjjMs/SpYjJMfU90NWadmL0Y3K3CWFM+zY2HgphrmLbqEPCgebPyyJ52pRGWrdBR1i4qwcpPQT32a6vg+DYIhrurYWVNk7Oj+Syi6jexuxccmXmmHfvP4M3B6ozPVEFcSvi)
+  issuer: cherrypick app
+
+  access:
+    expiration: 3600000
+    header: Authorization
+
 ---
 
 spring:
@@ -66,6 +110,40 @@ spring:
       hibernate:
         format_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ENC(qf7lBciaiT8g3XhVYn+i/PyAq6nqi+CWPtEIPdQszAlfMsdlXIIwuaWr53cP7kkg)
+            client-secret: ENC(RetuLPjf6u32+kBdvp4ziHTXkpXY0FQUq6owb+TBPybExx4hQyL9qxgYrBNdsP/6)
+            redirect-uri: ENC(dgfXA6aGLX2VHOZCSpIYABRtrQFX2khCH4o8BZOiLgKW8UzkKU87/Q5q/u5bYxxAOx7mht0/BwLqNr412ixFoEvq1/w8sZlQBV4CQm/KcPutAA4P3Iv+QJdy6VArXMnc)
+            authorization-grant-type: ENC(jIb8yhXuUej6dLo4GMYaZTdJ5qEvL/9eHlXV5m+Y0QA=)
+            client-authentication-method: ENC(Y5v97pWe1W3zTNzxXqPFow==)
+            scope: ENC(XaFAnflllxuKjX5NN0v5BsH5EymZTfqKFC/Ap0r88HQ=)
+
+          naver:
+            client-id: ENC(V8YybimxtjzfJm3KE6sMfUMUVfV68cHHdKUI1XZdv0I=)
+            client-secret: ENC(yFUo3FTia2QSAC7dFZsyPAq7uvfnewed)
+            redirect-uri: ENC(C+jjfy97lDDjQHKUk1vjMv4jOCgqAFju8QCbMc908llRzliLMqf6HgcHDL40QA/q/aV3aQ3EU0p5A7YSAmioUww2eYcsqe+cO55wJrEZEiZCWb2PV2P9nKhiZr3erAWa)
+            authorization-grant-type: ENC(RKNd4gFhDjstXA+BSAipzCo+xsttUAdm8M+qB2m1lC4=)
+            scope: ENC(VdCWI/YUyCe+/eQ3MI2F2Zp/pkUGcuYE)
+            client-name: Naver
+
+        provider:
+          kakao:
+            issuer-uri: https://kauth.kakao.com
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+          naver:
+            authorization_uri: https://nid.naver.com/oauth2.0/authorize
+            token_uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user_name_attribute: response
+
 jasypt:
   encryptor:
     bean : jasyptStringEncryptor
@@ -74,3 +152,12 @@ gpt:
   key: ENC(Jzyf0nsLehjSuR1auVWcle/+yw4FYRSatil6ylkRnvh73RJM03nNp6ECWy+VWDTo4xABNNlrhIJpsnpiiGkilQ==)
 server:
   port: 8082
+
+
+jwt:
+  secret-key: ENC(dQZ/q7TpH28bAirCy2d90W9Px/J9Hut1xSwYxoluJNcXlluq/YYkpkX9n3ECUtjjMs/SpYjJMfU90NWadmL0Y3K3CWFM+zY2HgphrmLbqEPCgebPyyJ52pRGWrdBR1i4qwcpPQT32a6vg+DYIhrurYWVNk7Oj+Syi6jexuxccmXmmHfvP4M3B6ozPVEFcSvi)
+  issuer: cherrypick app
+
+  access:
+    expiration: 3600000
+    header: Authorization

@@ -22,4 +22,13 @@ public class Keyword extends BaseEntity {
   private Member member;
 
   private String name;
+
+  public Keyword(Member member, String name) {
+    this.member = member;
+    this.name = name;
+  }
+
+  public void changeMember(Member member) {
+    this.member = member;
+  }
 }
