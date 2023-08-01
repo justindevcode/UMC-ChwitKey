@@ -1,4 +1,4 @@
-package com.example.cherrypickserver.chat.dto;
+package com.example.cherrypickserver.chat.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
