@@ -1,4 +1,4 @@
-package com.example.cherrypickserver.chat.dto;
+package com.example.cherrypickserver.chat.dto.response;
 
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;

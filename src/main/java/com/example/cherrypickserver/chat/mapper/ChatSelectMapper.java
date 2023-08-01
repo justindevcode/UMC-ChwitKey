@@ -3,7 +3,7 @@ package com.example.cherrypickserver.chat.mapper;
 import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.chat.domain.ChatSelect;
 import com.example.cherrypickserver.chat.domain.SelectType;
-import com.example.cherrypickserver.chat.dto.GptResponse;
+import com.example.cherrypickserver.chat.dto.response.GptResponse;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
 import com.theokanning.openai.completion.chat.ChatMessage;
