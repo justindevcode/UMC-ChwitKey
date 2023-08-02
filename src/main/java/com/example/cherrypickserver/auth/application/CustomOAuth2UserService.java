@@ -51,7 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if(type.isNaver()) {
             return SocialType.NAVER;
         }
-        return SocialType.GOOGLE;
+        return SocialType.KAKAO;
     }
 
     private Member getMember(OAuthAttributes attributes) {
