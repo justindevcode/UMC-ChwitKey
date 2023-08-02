@@ -1,7 +1,7 @@
 package com.example.cherrypickserver.auth.domain;
 
 public enum SocialType {
-    NAVER, GOOGLE;
+    NAVER, KAKAO;
 
     public static SocialType from(String value) {
         return SocialType.valueOf(value.toUpperCase());
