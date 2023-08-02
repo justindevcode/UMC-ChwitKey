@@ -43,7 +43,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         String accessToken = jwtProvider.createAccessToken(String.valueOf(id));
         setHeadersWithTokens(response, accessToken);
-        response.sendRedirect(FRONT_URL + "/account");
+        response.sendRedirect(FRONT_URL);
     }
 
     private void setHeadersWithTokens(HttpServletResponse response, String accessToken) {
