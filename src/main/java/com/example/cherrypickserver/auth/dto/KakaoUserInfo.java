@@ -31,6 +31,12 @@ public class KakaoUserInfo extends UserInfo {
 
     @Override
     public String getGender() {
-        return (String) attributes.get("gender");
+        Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
+
+        if (account == null) {
+            return null;
+        }
+
+        return ((String) account.get("gender")).substring(0, 1).toUpperCase();
     }
 }
