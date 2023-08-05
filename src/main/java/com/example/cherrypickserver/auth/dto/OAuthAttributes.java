@@ -27,6 +27,6 @@ public class OAuthAttributes {
     }
 
     public Member toMember(UserInfo userInfo) {
-        return new Member(userInfo.getEmail(), userInfo.getGender());
+        return new Member(userInfo.getGender(), userInfo.getEmail());
     }
 }
