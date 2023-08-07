@@ -24,6 +24,10 @@ public class ArticlePhoto extends BaseEntity {
 
   private String articleImgUrl;
 
+  private String imgDesc;
+
+
+
   @Builder
   public ArticlePhoto(Article article, String articleImgUrl) {
     this.article = article;
