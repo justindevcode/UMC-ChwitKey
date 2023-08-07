@@ -25,7 +25,7 @@ public class DetailArticleRes {
             .publisher(article.getPublisher())
             .uploadedAt(article.getUploadedAt())
             .reporter(article.getReporter())
-            .articlePhoto(article.getArticlePhoto().stream().map(m -> DetailArticlePhotoRes.toDto(m.getArticleImgUrl())).collect(Collectors.toList()))
+            .articlePhoto(article.getArticlePhoto().stream().map(DetailArticlePhotoRes::toDto).collect(Collectors.toList()))
             .build();
   }
 }

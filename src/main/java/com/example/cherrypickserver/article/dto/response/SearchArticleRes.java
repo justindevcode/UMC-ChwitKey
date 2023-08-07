@@ -17,7 +17,7 @@ public class SearchArticleRes {
   private String publisher;
   private String reporter;
   private Date uploadedAt;
-  private List<String> articlePhoto;
+  private List<SearchArticlePhotoRes> articlePhoto;
 
   public static SearchArticleRes toDto(Article article) {
     return SearchArticleRes.builder()
@@ -26,7 +26,7 @@ public class SearchArticleRes {
             .publisher(article.getPublisher())
             .reporter(article.getReporter())
             .uploadedAt(article.getUploadedAt())
-            .articlePhoto(article.getArticlePhoto().stream().map(ArticlePhoto::getArticleImgUrl).collect(Collectors.toList()))
+            .articlePhoto(article.getArticlePhoto().stream().map(SearchArticlePhotoRes::toDto).collect(Collectors.toList()))
             .build();
   }
 }

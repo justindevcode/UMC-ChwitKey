@@ -5,18 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class DetailArticlePhotoRes {
+public class SearchArticlePhotoRes {
+
   private String articleImgUrl;
   private String imgDesc;
 
   @Builder
-  public DetailArticlePhotoRes(String articleImgUrl, String imgDesc) {
+  public SearchArticlePhotoRes(String articleImgUrl, String imgDesc) {
     this.articleImgUrl = articleImgUrl;
     this.imgDesc = imgDesc;
   }
 
-  public static DetailArticlePhotoRes toDto(ArticlePhoto articlePhoto) {
-    return DetailArticlePhotoRes.builder()
+  public static SearchArticlePhotoRes toDto(ArticlePhoto articlePhoto) {
+    return SearchArticlePhotoRes.builder()
             .articleImgUrl(articlePhoto.getArticleImgUrl())
             .imgDesc(articlePhoto.getImgDesc())
             .build();
