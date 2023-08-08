@@ -42,7 +42,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(request -> {request
-                        .antMatchers("/", "/auth/**", "/oauth2/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+                        .antMatchers("/", "/auth/**", "/oauth2/**", "/swagger-ui/**", "/api-docs/**", "/social/**").permitAll()
                         .anyRequest().authenticated();
                 });
 

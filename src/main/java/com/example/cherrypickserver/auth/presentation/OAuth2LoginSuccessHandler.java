@@ -37,7 +37,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         if (member.getBirthdate() == null) {
             String accessToken = jwtProvider.createAccessToken(String.valueOf(id));
             setHeadersWithTokens(response, accessToken);
-            response.sendRedirect(FRONT_URL + "/login?token=" + BEARER + accessToken);
+            response.sendRedirect(FRONT_URL + "/social/login?token=" + BEARER + accessToken);
             return;
         }
 
