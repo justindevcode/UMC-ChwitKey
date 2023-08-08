@@ -1,8 +1,8 @@
 package com.example.cherrypickserver.chat.presentation;
 
+import com.example.cherrypickserver.auth.dto.LoginMember;
 import com.example.cherrypickserver.chat.application.ChatService;
 import com.example.cherrypickserver.chat.dto.response.GptResponse;
-import com.example.cherrypickserver.chat.dto.request.ChatRequest;
 import com.example.cherrypickserver.chat.dto.request.QuestionRequest;
 import com.example.cherrypickserver.chat.dto.response.ChatResponse;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Chat Controller", description = "Chat GPT 관련 컨트롤러")
@@ -29,9 +30,13 @@ public class ChatController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 회원"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 기사")
     })
-    @PostMapping("/")
-    public ResponseCustom<ChatResponse> createChatAndContent(@RequestBody ChatRequest chatRequest) {
-        return ResponseCustom.OK(chatService.createChatAndContent(chatRequest));
+    @Parameters({
+            @Parameter(name = "member", description = "멤버 아이디"),
+            @Parameter(name = "articleId", description = "기사 아이디")
+    })
+    @PostMapping("/new/{articleId}")
+    public ResponseCustom<ChatResponse> createChatAndContent(@AuthenticationPrincipal LoginMember member, @PathVariable Long articleId) {
+        return ResponseCustom.OK(chatService.createChatAndContent(member.getId(), articleId));
     }
 
     @Operation(summary = "질문 기능", description = "질문에 대한 답변을 요청합니다.")
