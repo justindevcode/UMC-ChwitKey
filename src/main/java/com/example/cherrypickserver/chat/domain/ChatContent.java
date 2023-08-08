@@ -34,4 +34,8 @@ public class ChatContent extends BaseEntity {
         this.content = content;
         this.chat = chat;
     }
+
+    public void delete() {
+        this.setIsEnable(false);
+    }
 }
