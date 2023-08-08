@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ChatContentRepository extends JpaRepository<ChatContent, Long> {
 
-    List<ChatContent> findAllByChat(Chat chat, Sort sort);
+    List<ChatContent> findAllByChatAndIsEnable(Chat chat, Boolean isEnable, Sort sort);
 }
