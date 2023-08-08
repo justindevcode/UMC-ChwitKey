@@ -18,7 +18,7 @@ import java.io.IOException;
 @Component
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    private static final String FRONT_URL = "http://localhost:3000";
+    private static final String FRONT_URL = "http://umcserver.shop";
     private static final String BEARER = "Bearer ";
 
     private final JwtProvider jwtProvider;
