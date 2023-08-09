@@ -90,6 +90,7 @@ public class ArticleController {
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
+  @Auth
   @ResponseBody
   @GetMapping("/search/industry")
   public ResponseCustom<Page<SearchArticleRes>> searchArticleByIndustry(
@@ -111,7 +112,7 @@ public class ArticleController {
           @ApiResponse(responseCode = "400", description = "존재하지 Attention type"),
           @ApiResponse(responseCode = "400", description = "이미 좋아요 또는 스크랩한 기사"),
   })
-  @ResponseBody
+  @Auth
   @PostMapping("/like/{articleId}")
   public ResponseCustom<Void> attendArticle(
           @Parameter(description = "기사 id") @PathVariable Long articleId,
@@ -130,7 +131,7 @@ public class ArticleController {
           @ApiResponse(responseCode = "404", description = "좋아요 또는 스크랩한 기사가 아님"),
           @ApiResponse(responseCode = "400", description = "존재하지 않는 Attention type")
   })
-  @ResponseBody
+  @Auth
   @DeleteMapping("/unlike/{articleId}")
   public ResponseCustom<Void> unAttendArticle(
           @Parameter(description = "기사 id") @PathVariable Long articleId,
