@@ -1,7 +1,11 @@
 package com.example.cherrypickserver.member.presentation;
 
 import com.example.cherrypickserver.global.dto.ResponseCustom;
+import com.example.cherrypickserver.global.resolver.Auth;
+import com.example.cherrypickserver.global.resolver.IsLogin;
+import com.example.cherrypickserver.global.resolver.LoginStatus;
 import com.example.cherrypickserver.member.application.MemberService;
+import com.example.cherrypickserver.member.dto.request.PostSignUpReq;
 import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +22,21 @@ public class MemberController {
     // 카카오 로그인 콜백
     @ResponseBody
     @GetMapping("/callback/kakao")
-    public ResponseCustom<LoginTokenRes> kakaoCallback(@RequestParam String code) {
+    public ResponseCustom<LoginTokenRes> kakaoCallback(@RequestParam String code)
+    {
         return ResponseCustom.OK(memberService.kakaoLogin(code));
+    }
+
+    // 첫 회원 프로필 설정
+    @Auth
+    @ResponseBody
+    @PostMapping("/signUp")
+    public ResponseCustom<LoginTokenRes> signUp(
+            @IsLogin LoginStatus loginStatus,
+            @RequestBody PostSignUpReq postSignUpReq
+    )
+    {
+        return ResponseCustom.OK(memberService.signUp(loginStatus.getMemberId(), postSignUpReq));
     }
 
 //

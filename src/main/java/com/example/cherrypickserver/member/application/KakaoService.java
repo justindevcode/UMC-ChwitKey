@@ -81,7 +81,7 @@ public class KakaoService {
     return access_Token;
   }
 
-  public HashMap<String, String> getUserInfo(String access_Token) {
+  public String getUserInfo(String access_Token) {
     HashMap<String, String> userInfo = new HashMap<String, String>();
     String reqURL = "https://kapi.kakao.com/v2/user/me";
     try {
@@ -114,7 +114,7 @@ public class KakaoService {
       userInfo.put("nickname", nickname);
       userInfo.put("id", id);
 
-      return userInfo;
+      return email;
 
     } catch (IOException e) {
       e.printStackTrace();
