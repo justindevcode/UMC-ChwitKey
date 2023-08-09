@@ -1,15 +1,10 @@
 package com.example.cherrypickserver.member.presentation;
 
+import com.example.cherrypickserver.global.dto.ResponseCustom;
 import com.example.cherrypickserver.member.application.MemberService;
-import com.example.cherrypickserver.member.dto.UpdateIndustryKeywordRequest;
-import com.example.cherrypickserver.member.dto.KeywordRequest;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Member Controller", description = "회원 컨드롤러")
@@ -19,6 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+
+    // 카카오 로그인 콜백
+    @ResponseBody
+    @GetMapping("/callback/kakao")
+    public ResponseCustom<LoginTokenRes> kakaoCallback(@RequestParam String code) {
+        return ResponseCustom.OK(memberService.kakaoLogin(code));
+    }
+
 //
 //    @Operation(summary = "회원 정보 조회", description = "로그인된 회원의 정보를 반환합니다.", tags = {"Member Controller"})
 //    @ApiResponses({
