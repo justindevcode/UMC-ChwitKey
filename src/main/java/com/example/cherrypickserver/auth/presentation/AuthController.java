@@ -6,6 +6,7 @@ import com.example.cherrypickserver.member.dto.MemberResponse;
 import com.example.cherrypickserver.auth.dto.SignUpRequest;
 import com.example.cherrypickserver.member.application.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +39,7 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "회원가입 성공"),
     })
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponse> signUp(@AuthenticationPrincipal LoginMember loginMember,
+    public ResponseEntity<MemberResponse> signUp( @Parameter(hidden = true) @AuthenticationPrincipal LoginMember loginMember,
                                                  @RequestBody SignUpRequest request) {
         MemberResponse response = memberService.signUp(loginMember.getId(), request);
         HttpHeaders headers = getHeadersWithTokens(loginMember.getId());
