@@ -57,7 +57,7 @@ jwt:
 
 kakao:
   client_id: ENC(BTYJphGVCJMMlMaSTDowKR+2jSLlbfEyBWoK74E894I2ApISsK1IO8B6o5TyF52N)
-  redirect_uri: ENC(B59SmRp17Ui7jboxdmO9VajLfOmt+jnwE8cKIUyylNeN5zdXNj4edlEQ5v4n8RzOT+vHCJniQPESA3CXPLbfxw==)
+  redirect_uri: ENC(7XAvYqoFn4pxoTgMyV1AU5l5CSepI0doFxyRtfLCx2vGn+HpGlRv0yyNdee6qUdPQFfpUwxQNl7IzODCCpih7A==)
 
 ---
 
