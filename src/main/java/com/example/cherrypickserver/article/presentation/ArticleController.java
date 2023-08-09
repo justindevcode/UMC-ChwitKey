@@ -4,20 +4,18 @@ import com.example.cherrypickserver.article.application.ArticleService;
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
-import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
-import com.example.cherrypickserver.auth.dto.LoginMember;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
+import com.example.cherrypickserver.global.resolver.Auth;
+import com.example.cherrypickserver.global.resolver.IsLogin;
+import com.example.cherrypickserver.global.resolver.LoginStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -74,16 +72,17 @@ public class ArticleController {
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
+  @Auth
   @ResponseBody
   @GetMapping("/search/keyword")
   public ResponseCustom<Page<SearchArticleRes>> searchArticleByKeyword(
-          @Parameter(description = "멤버 id")@AuthenticationPrincipal LoginMember member,
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @Parameter(description = "멤버가 등록한 키워드") @RequestParam String keyword,
           Pageable pageable
   )
   {
-    return ResponseCustom.OK(articleService.searchArticleByKeyword(member.getId(), keyword, sortType, pageable));
+    return ResponseCustom.OK(articleService.searchArticleByKeyword(loginStatus.getMemberId(), keyword, sortType, pageable));
   }
 
   // 기사 검색 (직군 + 정렬)
@@ -91,16 +90,17 @@ public class ArticleController {
   @ApiResponses({
           @ApiResponse(responseCode = "200", description = "기사 검색 성공"),
   })
+  @Auth
   @ResponseBody
   @GetMapping("/search/industry")
   public ResponseCustom<Page<SearchArticleRes>> searchArticleByIndustry(
-          @Parameter(description = "멤버 id")@AuthenticationPrincipal LoginMember member,
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @Parameter(description = "멤버가 등록한 직군") @RequestParam String industry,
           Pageable pageable
   )
   {
-    return ResponseCustom.OK(articleService.searchArticleByIndustry(member.getId(), industry, sortType, pageable));
+    return ResponseCustom.OK(articleService.searchArticleByIndustry(loginStatus.getMemberId(), industry, sortType, pageable));
   }
 
   // 좋아요 + 스크랩
@@ -112,15 +112,15 @@ public class ArticleController {
           @ApiResponse(responseCode = "400", description = "존재하지 Attention type"),
           @ApiResponse(responseCode = "400", description = "이미 좋아요 또는 스크랩한 기사"),
   })
-  @ResponseBody
+  @Auth
   @PostMapping("/like/{articleId}")
   public ResponseCustom<Void> attendArticle(
           @Parameter(description = "기사 id") @PathVariable Long articleId,
-          @Parameter(description = "멤버 id")@AuthenticationPrincipal LoginMember member,
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "좋아요(like), 스크랩(scrap)") @RequestParam String type
           )
   {
-    articleService.attendArticle(articleId, member.getId(), type);
+    articleService.attendArticle(articleId, loginStatus.getMemberId(), type);
     return ResponseCustom.OK();
   }
 
@@ -131,15 +131,15 @@ public class ArticleController {
           @ApiResponse(responseCode = "404", description = "좋아요 또는 스크랩한 기사가 아님"),
           @ApiResponse(responseCode = "400", description = "존재하지 않는 Attention type")
   })
-  @ResponseBody
+  @Auth
   @DeleteMapping("/unlike/{articleId}")
   public ResponseCustom<Void> unAttendArticle(
           @Parameter(description = "기사 id") @PathVariable Long articleId,
-          @Parameter(description = "멤버 id")@AuthenticationPrincipal LoginMember member,
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "좋아요(like), 스크랩(scrap)") @RequestParam String type
   )
   {
-    articleService.unAttendArticle(articleId, member.getId(), type);
+    articleService.unAttendArticle(articleId, loginStatus.getMemberId(), type);
     return ResponseCustom.OK();
   }
 }

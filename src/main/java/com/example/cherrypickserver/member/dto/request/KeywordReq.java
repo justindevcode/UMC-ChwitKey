@@ -1,4 +1,4 @@
-package com.example.cherrypickserver.auth.dto;
+package com.example.cherrypickserver.member.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class LoginMember {
+public class KeywordReq {
 
-    private Long id;
-    private String name;
+    private String keyword;
 }

@@ -1,4 +1,4 @@
-package com.example.cherrypickserver.member.dto;
+package com.example.cherrypickserver.member.dto.response;
 
 import com.example.cherrypickserver.member.domain.IndustryKeyword;
 import com.example.cherrypickserver.member.domain.Keyword;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class MemberResponse {
+public class MemberRes {
 
     private Long id;
     private String name;
@@ -22,7 +22,7 @@ public class MemberResponse {
     private List<String> keywords;
     private IndustryKeyword industryKeyword;
 
-    public MemberResponse(Member member) {
+    public MemberRes(Member member) {
         this(member.getId(), member.getName(), member.getBirthdate(), member.getGender(),
                 member.getKeywords().stream().map(Keyword::getName).collect(Collectors.toList()),
                 member.getIndustryKeyword());
