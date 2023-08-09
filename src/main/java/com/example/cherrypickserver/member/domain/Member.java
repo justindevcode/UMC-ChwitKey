@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -58,8 +60,14 @@ public class Member extends BaseEntity {
         keywords.add(keyword);
     }
 
-    public void removeKeyword(Keyword keyword) {
-        keywords.remove(keyword);
+    public void removeKeyword(String name) {
+        List<Keyword> result = keywords.stream()
+                .filter(keyword -> keyword.getName().equals(name))
+                .collect(Collectors.toList());
+
+        for (Keyword key : result) {
+            keywords.remove(key);
+        }
     }
 
     public void changeIndustryKeyword(IndustryKeyword industryKeyword) {
