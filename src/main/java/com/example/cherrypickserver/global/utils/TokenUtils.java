@@ -16,7 +16,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Component
 public class TokenUtils {
-  public static final String USER_IDX = "userIdx";
+  public static final String MEMBER_ID = "memberId";
   public static final String NICKNAME = "nickname";
   public static final String ONE_BLOCK = " ";
   public static final String COMMA = ",";
@@ -78,11 +78,11 @@ public class TokenUtils {
     return access_token + COMMA + refresh_token;
   }
 
-  public String createAccessToken(Long userIdx, String nickname) {
+  public String createAccessToken(Long memberId, String nickname) {
     Claims claims = Jwts.claims()
             .setSubject(accessName)
             .setIssuedAt(new Date());
-    claims.put(USER_IDX, userIdx);
+    claims.put(MEMBER_ID, memberId);
     claims.put(NICKNAME, nickname);
     Date ext = new Date();
     ext.setTime(ext.getTime() + Long.parseLong(Objects.requireNonNull(accessExTime)));
@@ -99,7 +99,7 @@ public class TokenUtils {
     Claims claims = Jwts.claims()
             .setSubject(refreshName)
             .setIssuedAt(new Date());
-    claims.put(USER_IDX, userIdx);
+    claims.put(MEMBER_ID, userIdx);
     claims.put(NICKNAME, nickname);
     Date ext = new Date();
     ext.setTime(ext.getTime() + Long.parseLong(Objects.requireNonNull(refreshExTime)));
@@ -172,7 +172,7 @@ public class TokenUtils {
   }
 
   public String getUserIdFromFullToken(String fullToken) {
-    return String.valueOf(getJwtBodyFromJustToken(parseJustTokenFromFullToken(fullToken)).get(USER_IDX));
+    return String.valueOf(getJwtBodyFromJustToken(parseJustTokenFromFullToken(fullToken)).get(MEMBER_ID));
   }
 
   public String getNicknameFromFullToken(String fullToken) {

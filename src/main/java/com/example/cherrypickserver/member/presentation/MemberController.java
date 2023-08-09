@@ -7,6 +7,11 @@ import com.example.cherrypickserver.global.resolver.LoginStatus;
 import com.example.cherrypickserver.member.application.MemberService;
 import com.example.cherrypickserver.member.dto.request.PostSignUpReq;
 import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,11 @@ public class MemberController {
     private final MemberService memberService;
 
     // 카카오 로그인 콜백
+    @Operation(summary = "카카오 로그인", description = "카카오 로그인을 진행한다." +
+            "\n https://kauth.kakao.com/oauth/authorize?client_id={api-key}&redirect_uri={redirect-uri}&response_type=code 주소로 요청해서 카카오 로그인을 진행하면 해당 api로 redirect 됩니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LoginTokenRes.class))}),
+    })
     @ResponseBody
     @GetMapping("/callback/kakao")
     public ResponseCustom<LoginTokenRes> kakaoCallback(@RequestParam String code)
@@ -28,6 +38,11 @@ public class MemberController {
     }
 
     // 첫 회원 프로필 설정
+    @Operation(summary = "첫 회원 프로필 설정", description = "처음 회원가입시 프로필을 설정합니다." +
+            " \n카카오 로그인을 진행했을 때 isMember 값이 false로 넘어오면 해당 api를 호출해주세요.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "프로필 설정 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LoginTokenRes.class))}),
+    })
     @Auth
     @ResponseBody
     @PostMapping("/signUp")
