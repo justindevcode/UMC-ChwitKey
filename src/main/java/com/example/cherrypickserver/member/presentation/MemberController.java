@@ -4,9 +4,16 @@ import com.example.cherrypickserver.global.dto.ResponseCustom;
 import com.example.cherrypickserver.global.resolver.Auth;
 import com.example.cherrypickserver.global.resolver.IsLogin;
 import com.example.cherrypickserver.global.resolver.LoginStatus;
+import com.example.cherrypickserver.member.application.KeywordService;
 import com.example.cherrypickserver.member.application.MemberService;
+import com.example.cherrypickserver.member.dto.request.PostKeywordReq;
 import com.example.cherrypickserver.member.dto.request.PostSignUpReq;
+import com.example.cherrypickserver.member.dto.request.SaveMemberReq;
+import com.example.cherrypickserver.member.dto.request.UpdateIndustryReq;
+import com.example.cherrypickserver.member.dto.request.UpdateNameReq;
 import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
+import com.example.cherrypickserver.member.dto.response.MemberInfoRes;
+import com.example.cherrypickserver.member.dto.response.MemberKeywordRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final KeywordService keywordService;
 
     // 카카오 로그인 콜백
     @Operation(summary = "카카오 로그인", description = "카카오 로그인을 진행한다." +
@@ -53,6 +61,106 @@ public class MemberController {
     {
         return ResponseCustom.OK(memberService.signUp(loginStatus.getMemberId(), postSignUpReq));
     }
+
+
+    @Operation(summary = "이름 변경", description = "회원의 이름변경")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "이름 변경 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+    })
+    @ResponseBody
+    @PostMapping("/updateName")
+    public ResponseCustom<String> updateName(
+        @RequestBody UpdateNameReq updateNameReq
+    )
+    {
+        return ResponseCustom.OK(memberService.updateName(updateNameReq));
+    }
+
+    @Operation(summary = "직군 변경", description = "직군 변경")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "직군 변경 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+    })
+    @ResponseBody
+    @PostMapping("/updateIndustry")
+    public ResponseCustom<String> updateIndustry(
+        @RequestBody UpdateIndustryReq updateIndustryReq
+    )
+    {
+        return ResponseCustom.OK(memberService.updateIndustryKeyword(updateIndustryReq));
+    }
+
+    @Operation(summary = "첫 회원 등록", description = "초기 회원 정보 저장")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "회원 저장 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+    })
+    @ResponseBody
+    @PostMapping("/save")
+    public ResponseCustom<String> save(
+        @RequestBody SaveMemberReq saveMemberReq
+    )
+    {
+        return ResponseCustom.OK(memberService.save(saveMemberReq));
+    }
+
+
+    @Operation(summary = "유저 키워드 등록", description = "유저 키워드 저장")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "키워드 저장 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+    })
+    @ResponseBody
+    @PostMapping("/saveKeyword")
+    public ResponseCustom<String> saveKeyword(
+        @RequestBody PostKeywordReq postKeywordReq
+    )
+    {
+        return ResponseCustom.OK(keywordService.save(postKeywordReq));
+    }
+
+
+    @Operation(summary = "유저 키워드 삭제", description = "키워드 삭제")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "키워드 삭제 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+    })
+    @ResponseBody
+    @DeleteMapping("/deleteKeyword")
+    public ResponseCustom<String> deleteKeyword(
+        @RequestBody PostKeywordReq postKeywordReq
+    )
+    {
+        return ResponseCustom.OK(keywordService.delete(postKeywordReq));
+    }
+
+
+    @Operation(summary = "유저 키워드 목록", description = "유저 키워드 목록")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "키워드 목록 전송성공", content = {@Content(mediaType = "application/json",  schema = @Schema(implementation = MemberKeywordRes.class))}),
+    })
+    @ResponseBody
+    @GetMapping("/keyword/{memberNumber}")
+    public ResponseCustom<MemberKeywordRes> deleteKeyword(
+        @PathVariable String memberNumber
+    )
+    {
+        return ResponseCustom.OK(keywordService.getMemberKeyword(memberNumber));
+    }
+
+    @Operation(summary = "유저 정보", description = "유저 정보")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "키워드 정보 전송성공", content = {@Content(mediaType = "application/json",  schema = @Schema(implementation = MemberInfoRes.class))}),
+    })
+    @ResponseBody
+    @GetMapping("/info/{memberNumber}")
+    public ResponseCustom<MemberInfoRes> getMemberInfo(
+        @PathVariable String memberNumber
+    )
+    {
+        return ResponseCustom.OK(memberService.memberInfo(memberNumber));
+    }
+
+
+
+
+
 
 //
 //    @Operation(summary = "회원 정보 조회", description = "로그인된 회원의 정보를 반환합니다.", tags = {"Member Controller"})

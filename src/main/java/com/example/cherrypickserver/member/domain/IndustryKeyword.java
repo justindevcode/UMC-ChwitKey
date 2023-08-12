@@ -29,4 +29,10 @@ public class IndustryKeyword {
         this.second = second;
         this.third = third;
     }
+
+    public IndustryKeyword(String industryKeyword1, String industryKeyword2, String industryKeyword3) {
+        this.first = !industryKeyword1.isEmpty() ? Industry.fromValue(industryKeyword1) : null;
+        this.second = !industryKeyword2.isEmpty() ? Industry.fromValue(industryKeyword2) : null;
+        this.third = !industryKeyword3.isEmpty() ? Industry.fromValue(industryKeyword3) : null;
+    }
 }

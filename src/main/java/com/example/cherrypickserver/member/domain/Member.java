@@ -24,6 +24,8 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    private String memberNumber;
+
     private String name;
 
     private String birthdate;
@@ -61,7 +63,33 @@ public class Member extends BaseEntity {
         this.gender = gender;
     }
 
-//    public void changeMemberDetail(String name, String birthdate) {
+    public void updateMemberName(String updateName){
+        this.name = updateName;
+    }
+
+    public void updateMemberIndustry(IndustryKeyword industryKeyword){
+        this.industryKeyword = industryKeyword;
+    }
+
+    public Member(String memberNumber, String name, String birthdate, String gender,
+        IndustryKeyword industryKeyword, String email) {
+        this.memberNumber = memberNumber;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.industryKeyword = industryKeyword;
+        this.email = email;
+    }
+
+    public void updateKeyword(Keyword keyword){
+        this.keywords.add(keyword);
+    }
+
+    public void deleteKeyword(Keyword keyword){
+        keywords.remove(keyword);
+    }
+
+    //    public void changeMemberDetail(String name, String birthdate) {
 //        validateBirthdate(birthdate);
 //        this.name = name;
 //        this.birthdate = birthdate;
