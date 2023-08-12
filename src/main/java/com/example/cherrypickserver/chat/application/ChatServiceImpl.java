@@ -4,6 +4,7 @@ import com.example.cherrypickserver.article.domain.Article;
 import com.example.cherrypickserver.article.domain.ArticleRepository;
 import com.example.cherrypickserver.article.exception.ArticleNotFoundException;
 import com.example.cherrypickserver.chat.domain.*;
+import com.example.cherrypickserver.chat.dto.request.ChatRequest;
 import com.example.cherrypickserver.chat.dto.response.GptResponse;
 import com.example.cherrypickserver.chat.dto.request.QuestionRequest;
 import com.example.cherrypickserver.chat.dto.response.ChatResponse;
@@ -42,11 +43,11 @@ public class ChatServiceImpl implements ChatService {
     private final OpenAiService openAiService;
 
     @Override
-    public ChatResponse createChatAndContent(Long memberId, Long articleId) {
+    public ChatResponse createChatAndContent(ChatRequest chatRequest) {
 
-        Member member = memberRepository.findByIdAndIsEnable(memberId, true)
+        Member member = memberRepository.findByMemberNumberAndIsEnable(chatRequest.getMemberNumber(), true)
                 .orElseThrow(MemberNotFoundException::new);
-        Article article = articleRepository.findByIdAndIsEnable(articleId, true)
+        Article article = articleRepository.findByIdAndIsEnable(chatRequest.getArticleId(), true)
                 .orElseThrow(ArticleNotFoundException::new);
 
         Chat chat = chatRepository.save(chatMapper.toEntity(member, article));
