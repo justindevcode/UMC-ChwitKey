@@ -44,6 +44,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	// swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+	// s3 bucket
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.3'
 }
 
 tasks.named('test') {
