@@ -86,6 +86,14 @@ public class MemberService {
         return MemberInfoRes.toDto(member);
     }
 
+    @Transactional
+    public String deleteMember(Long memberId) {
+        Member member = memberRepository.findByIdAndIsEnable(memberId, true)
+                .orElseThrow(MemberNotFoundException::new);
+        member.setIsEnable(false);
+
+        return "success delete member";
+    }
 
 
 //    @Transactional

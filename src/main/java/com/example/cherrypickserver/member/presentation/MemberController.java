@@ -15,6 +15,7 @@ import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
 import com.example.cherrypickserver.member.dto.response.MemberInfoRes;
 import com.example.cherrypickserver.member.dto.response.MemberKeywordRes;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -157,9 +158,15 @@ public class MemberController {
         return ResponseCustom.OK(memberService.memberInfo(memberNumber));
     }
 
-
-
-
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 회원")
+    })
+    @DeleteMapping("/deleteMember")
+    public ResponseCustom<String> deleteMember(@Parameter(description = "멤버 아이디") @IsLogin LoginStatus loginStatus) {
+        return ResponseCustom.OK(memberService.deleteMember(loginStatus.getMemberId()));
+    }
 
 
 //
