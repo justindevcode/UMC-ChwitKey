@@ -13,6 +13,7 @@ import com.example.cherrypickserver.member.dto.response.MemberInfoRes;
 import com.example.cherrypickserver.member.dto.response.MemberKeywordRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -153,10 +154,30 @@ public class MemberController {
         return ResponseCustom.OK(memberService.memberInfo(memberNumber));
     }
 
+    @Operation(summary = "프로필 이미지 등록", description = "프로필 이미지 등록")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "프로필 이미지 등록 성공"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 회원")
+    })
+    @Parameters({
+            @Parameter(name = "loginStatus", description = "멤버 아이디"),
+            @Parameter(name = "multipartFile", description = "프로필 이미지 정보")
+    })
     @Auth
     @PostMapping("/uploadImage")
     public ResponseCustom<String> uploadImage(@IsLogin LoginStatus loginStatus, @RequestPart("image") MultipartFile multipartFile) throws IOException {
         return ResponseCustom.OK(s3Service.uploadImage(loginStatus.getMemberId(), multipartFile));
+    }
+
+    @Operation(summary = "프로필 이미지 삭제", description = "프로필 이미지를 기본 이미지로 변경 시 기존 프로필 이미지 삭제")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "프로필 이미지 삭제 성공"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 회원")
+    })
+    @Auth
+    @DeleteMapping("/deleteImage")
+    public ResponseCustom<String> deleteImage(@Parameter(description = "멤버 아이디") @IsLogin LoginStatus loginStatus) {
+        return ResponseCustom.OK(s3Service.deleteImage(loginStatus.getMemberId()));
     }
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
@@ -164,6 +185,7 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 회원")
     })
+    @Auth
     @DeleteMapping("/deleteMember")
     public ResponseCustom<String> deleteMember(@Parameter(description = "멤버 아이디") @IsLogin LoginStatus loginStatus) {
         return ResponseCustom.OK(memberService.deleteMember(loginStatus.getMemberId()));
