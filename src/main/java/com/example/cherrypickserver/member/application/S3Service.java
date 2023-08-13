@@ -40,8 +40,23 @@ public class S3Service {
 
         Member member = memberRepository.findByIdAndIsEnable(memberId, true)
                 .orElseThrow(MemberNotFoundException::new);
+        if (member.getMemberImgName() != null) {
+            amazonS3Client.deleteObject(bucket, member.getMemberImgName());
+        }
         member.updateMemberImg(s3FileName, memberImgUrl);
 
         return memberImgUrl;
+    }
+
+    @Transactional
+    public String deleteImage(Long memberId) {
+
+        Member member = memberRepository.findByIdAndIsEnable(memberId, true)
+                .orElseThrow(MemberNotFoundException::new);
+
+        amazonS3Client.deleteObject(bucket, member.getMemberImgName());
+        member.updateMemberImg(null, null);
+
+        return "success delete image";
     }
 }
