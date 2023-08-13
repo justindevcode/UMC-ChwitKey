@@ -6,11 +6,7 @@ import com.example.cherrypickserver.global.resolver.IsLogin;
 import com.example.cherrypickserver.global.resolver.LoginStatus;
 import com.example.cherrypickserver.member.application.KeywordService;
 import com.example.cherrypickserver.member.application.MemberService;
-import com.example.cherrypickserver.member.dto.request.PostKeywordReq;
-import com.example.cherrypickserver.member.dto.request.PostSignUpReq;
-import com.example.cherrypickserver.member.dto.request.SaveMemberReq;
-import com.example.cherrypickserver.member.dto.request.UpdateIndustryReq;
-import com.example.cherrypickserver.member.dto.request.UpdateNameReq;
+import com.example.cherrypickserver.member.dto.request.*;
 import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
 import com.example.cherrypickserver.member.dto.response.MemberInfoRes;
 import com.example.cherrypickserver.member.dto.response.MemberKeywordRes;
@@ -33,17 +29,11 @@ public class MemberController {
     private final MemberService memberService;
     private final KeywordService keywordService;
 
-    // 카카오 로그인 콜백
-    @Operation(summary = "카카오 로그인", description = "카카오 로그인을 진행한다." +
-            "\n https://kauth.kakao.com/oauth/authorize?client_id={api-key}&redirect_uri={redirect-uri}&response_type=code 주소로 요청해서 카카오 로그인을 진행하면 해당 api로 redirect 됩니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LoginTokenRes.class))}),
-    })
     @ResponseBody
-    @GetMapping("/callback/kakao")
-    public ResponseCustom<LoginTokenRes> kakaoCallback(@RequestParam String code)
+    @PostMapping("/signIn")
+    public ResponseCustom<LoginTokenRes> signIn(@RequestBody PostSignInReq postSignInReq)
     {
-        return ResponseCustom.OK(memberService.kakaoLogin(code));
+        return ResponseCustom.OK(memberService.signIn(postSignInReq));
     }
 
     // 첫 회원 프로필 설정
@@ -63,6 +53,19 @@ public class MemberController {
         return ResponseCustom.OK(memberService.signUp(loginStatus.getMemberId(), postSignUpReq));
     }
 
+
+    @Operation(summary = "첫 회원 등록", description = "초기 회원 정보 저장")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원 저장 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+    })
+    @ResponseBody
+    @PostMapping("/save")
+    public ResponseCustom<String> save(
+            @RequestBody SaveMemberReq saveMemberReq
+    )
+    {
+        return ResponseCustom.OK(memberService.save(saveMemberReq));
+    }
 
     @Operation(summary = "이름 변경", description = "회원의 이름변경")
     @ApiResponses(value = {
@@ -88,19 +91,6 @@ public class MemberController {
     )
     {
         return ResponseCustom.OK(memberService.updateIndustryKeyword(updateIndustryReq));
-    }
-
-    @Operation(summary = "첫 회원 등록", description = "초기 회원 정보 저장")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "회원 저장 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
-    })
-    @ResponseBody
-    @PostMapping("/save")
-    public ResponseCustom<String> save(
-        @RequestBody SaveMemberReq saveMemberReq
-    )
-    {
-        return ResponseCustom.OK(memberService.save(saveMemberReq));
     }
 
 

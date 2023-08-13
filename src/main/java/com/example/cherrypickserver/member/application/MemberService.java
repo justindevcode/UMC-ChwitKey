@@ -2,12 +2,8 @@ package com.example.cherrypickserver.member.application;
 
 import com.example.cherrypickserver.global.utils.TokenUtils;
 import com.example.cherrypickserver.member.domain.*;
-import com.example.cherrypickserver.member.dto.request.PostSignUpReq;
-import com.example.cherrypickserver.member.dto.request.SaveMemberReq;
-import com.example.cherrypickserver.member.dto.request.UpdateIndustryKeywordReq;
-import com.example.cherrypickserver.member.dto.request.KeywordReq;
-import com.example.cherrypickserver.member.dto.request.UpdateIndustryReq;
-import com.example.cherrypickserver.member.dto.request.UpdateNameReq;
+import com.example.cherrypickserver.member.dto.assembler.MemberAssembler;
+import com.example.cherrypickserver.member.dto.request.*;
 import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
 import com.example.cherrypickserver.member.dto.response.MemberInfoRes;
 import com.example.cherrypickserver.member.exception.MemberNotFoundException;
@@ -15,35 +11,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class MemberService {
 
-    private final KakaoService kakaoService;
     private final MemberRepository memberRepository;
     private final TokenUtils tokenUtils;
 
-
     @Transactional
-    public LoginTokenRes kakaoLogin(String authorize_code)
-    {
-        String kakaoToken = kakaoService.getAccessToken(authorize_code);
-        String email = kakaoService.getUserInfo(kakaoToken);
-        return signIn(email);
-    }
-
-    @Transactional
-    public LoginTokenRes signIn(String email) {
+    public LoginTokenRes signIn(PostSignInReq postSignInReq) {
         boolean isMember = true;
-        Member member = memberRepository.findByEmailAndProvider(email, Provider.KAKAO);
+        Member member = memberRepository.findByMemberNumberAndProviderAndIsEnable(postSignInReq.getMemberNumber(), Provider.getProviderByName(postSignInReq.getProvider()), true);
 
         if (member == null) {
             isMember = false;
-            member = memberRepository.save(Member.toEntity(email, Provider.KAKAO));
+            member = memberRepository.save(Member.toEntity(postSignInReq.getMemberNumber(), Provider.getProviderByName(postSignInReq.getProvider())));
         }
 
         return LoginTokenRes.toDto(tokenUtils.createToken(member), isMember);
@@ -52,14 +36,15 @@ public class MemberService {
     @Transactional
     public LoginTokenRes signUp(Long memberId, PostSignUpReq postSignUpReq) {
         Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
-        member.toUpdateMemberInfo(postSignUpReq.getNickname(), postSignUpReq.getBirth(), postSignUpReq.getGender());
+        IndustryKeyword industryKeyword = IndustryKeyword.toEntity(postSignUpReq.getIndustryKeywords());
+        member.toUpdateMemberInfo(postSignUpReq.getNickname(), postSignUpReq.getBirth(), postSignUpReq.getGender(), industryKeyword);
         return LoginTokenRes.toDto(tokenUtils.createToken(member), true);
     }
 
     @Transactional
     public String save(SaveMemberReq saveMemberReq){
         IndustryKeyword industryKeyword = new IndustryKeyword(saveMemberReq.getIndustryKeyword1(), saveMemberReq.getIndustryKeyword2(), saveMemberReq.getIndustryKeyword3());
-        Member member = new Member(saveMemberReq.getMemberNumber(), saveMemberReq.getName(), saveMemberReq.getBirthdate(), saveMemberReq.getGender(), industryKeyword, "temp@test.com");
+        Member member = new Member(saveMemberReq.getMemberNumber(), saveMemberReq.getName(), saveMemberReq.getBirthdate(), saveMemberReq.getGender(), industryKeyword);
         memberRepository.save(member);
         return "success save member : " + member.getName();
     }
