@@ -22,6 +22,7 @@ public class MemberInfoRes {
 	private String industryKeyword2;
 	private String industryKeyword3;
 
+	private String memberImgUrl;
 
 	public static MemberInfoRes toDto(Member member){
 		MemberInfoRes memberInfoRes = MemberInfoRes.builder()
@@ -32,6 +33,7 @@ public class MemberInfoRes {
 			.industryKeyword1(member.getIndustryKeyword().getFirst() != null ? member.getIndustryKeyword().getFirst().getValue() : "")
 			.industryKeyword2(member.getIndustryKeyword().getSecond() != null ? member.getIndustryKeyword().getSecond().getValue() : "")
 			.industryKeyword3(member.getIndustryKeyword().getThird() != null ? member.getIndustryKeyword().getThird().getValue() : "")
+			.memberImgUrl(member.getMemberImgUrl())
 			.build();
 		return memberInfoRes;
 	}
