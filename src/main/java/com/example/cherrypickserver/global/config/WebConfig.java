@@ -13,14 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-//  private final LoginResolver isLoginResolver;
-//
-//  @Override
-//  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-//    resolvers.add(isLoginResolver);
-//  }
-
+  private final LoginResolver isLoginResolver;
   private final long MAX_AGE_SECS = 3600;
+
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    resolvers.add(isLoginResolver);
+  }
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {

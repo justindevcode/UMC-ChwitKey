@@ -38,29 +38,27 @@ public class Member extends BaseEntity {
     @Embedded
     private IndustryKeyword industryKeyword;
 
-    @Column(nullable = false)
-    private String email;
-
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
     @Builder
-    public Member(String email, Provider provider) {
-        this.email = email;
+    public Member(String memberNumber, Provider provider) {
+        this.memberNumber = memberNumber;
         this.provider = provider;
     }
 
-    public static Member toEntity(String email, Provider provider) {
+    public static Member toEntity(String memberNumber, Provider provider) {
         return Member.builder()
-                .email(email)
+                .memberNumber(memberNumber)
                 .provider(provider)
                 .build();
     }
 
-    public void toUpdateMemberInfo(String nickname, String birth, String gender) {
+    public void toUpdateMemberInfo(String nickname, String birth, String gender, IndustryKeyword industryKeyword) {
         this.name = nickname;
         this.birthdate = birth;
         this.gender = gender;
+        this.industryKeyword = industryKeyword;
     }
 
     public void updateMemberName(String updateName){
@@ -72,13 +70,12 @@ public class Member extends BaseEntity {
     }
 
     public Member(String memberNumber, String name, String birthdate, String gender,
-        IndustryKeyword industryKeyword, String email) {
+        IndustryKeyword industryKeyword) {
         this.memberNumber = memberNumber;
         this.name = name;
         this.birthdate = birthdate;
         this.gender = gender;
         this.industryKeyword = industryKeyword;
-        this.email = email;
     }
 
     public void updateKeyword(Keyword keyword){
