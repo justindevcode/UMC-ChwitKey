@@ -41,6 +41,10 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
+    private String memberImgUrl;
+
+    private String memberImgName;
+
     @Builder
     public Member(String memberNumber, Provider provider) {
         this.memberNumber = memberNumber;
@@ -84,6 +88,11 @@ public class Member extends BaseEntity {
 
     public void deleteKeyword(Keyword keyword){
         keywords.remove(keyword);
+    }
+
+    public void updateMemberImg(String memberImgName, String memberImgUrl) {
+        this.memberImgName = memberImgName;
+        this.memberImgUrl = memberImgUrl;
     }
 
     //    public void changeMemberDetail(String name, String birthdate) {
