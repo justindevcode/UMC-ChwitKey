@@ -6,6 +6,7 @@ import com.example.cherrypickserver.global.resolver.IsLogin;
 import com.example.cherrypickserver.global.resolver.LoginStatus;
 import com.example.cherrypickserver.member.application.KeywordService;
 import com.example.cherrypickserver.member.application.MemberService;
+import com.example.cherrypickserver.member.application.S3Service;
 import com.example.cherrypickserver.member.dto.request.*;
 import com.example.cherrypickserver.member.dto.response.LoginTokenRes;
 import com.example.cherrypickserver.member.dto.response.MemberInfoRes;
@@ -19,6 +20,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Tag(name = "Member Controller", description = "회원 컨드롤러")
 @RequestMapping("/api/members")
@@ -28,6 +32,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final KeywordService keywordService;
+    private final S3Service s3Service;
 
     @ResponseBody
     @PostMapping("/signIn")
@@ -146,6 +151,12 @@ public class MemberController {
     )
     {
         return ResponseCustom.OK(memberService.memberInfo(memberNumber));
+    }
+
+    @Auth
+    @PostMapping("/uploadImage")
+    public ResponseCustom<String> uploadImage(@IsLogin LoginStatus loginStatus, @RequestPart("image") MultipartFile multipartFile) throws IOException {
+        return ResponseCustom.OK(s3Service.uploadImage(loginStatus.getMemberId(), multipartFile));
     }
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
