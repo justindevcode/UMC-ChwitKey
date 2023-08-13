@@ -1,11 +1,12 @@
 package com.example.cherrypickserver.chat.presentation;
 
 import com.example.cherrypickserver.chat.application.ChatService;
-import com.example.cherrypickserver.chat.dto.request.ChatRequest;
 import com.example.cherrypickserver.chat.dto.response.GptResponse;
 import com.example.cherrypickserver.chat.dto.request.QuestionRequest;
 import com.example.cherrypickserver.chat.dto.response.ChatResponse;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
+import com.example.cherrypickserver.global.resolver.IsLogin;
+import com.example.cherrypickserver.global.resolver.LoginStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -30,12 +31,12 @@ public class ChatController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 기사")
     })
     @Parameters({
-            @Parameter(name = "member", description = "멤버 아이디"),
+            @Parameter(name = "loginStatus", description = "멤버 아이디"),
             @Parameter(name = "articleId", description = "기사 아이디")
     })
-    @PostMapping("/new")
-    public ResponseCustom<ChatResponse> createChatAndContent(@RequestBody ChatRequest chatRequest) {
-        return ResponseCustom.OK(chatService.createChatAndContent(chatRequest));
+    @PostMapping("/new/{articleId}")
+    public ResponseCustom<ChatResponse> createChatAndContent(@IsLogin LoginStatus loginStatus, @PathVariable Long articleId) {
+        return ResponseCustom.OK(chatService.createChatAndContent(loginStatus.getMemberId(), articleId));
     }
 
     @Operation(summary = "질문 기능", description = "질문에 대한 답변을 요청합니다.")

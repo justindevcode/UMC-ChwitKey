@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ChatRequest {
 
     @Schema(description = "회원 아이디")
-    private String memberNumber;
+    private Long memberId;
 
     @Schema(description = "기사 아이디")
     private Long articleId;
