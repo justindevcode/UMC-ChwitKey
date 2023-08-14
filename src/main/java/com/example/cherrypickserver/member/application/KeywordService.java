@@ -25,8 +25,8 @@ public class KeywordService {
 	private final KeywordRepository keywordRepository;
 
 	@Transactional
-	public String save(PostKeywordReq postKeywordReq){
-		Member member = memberRepository.findByMemberNumberAndIsEnable(postKeywordReq.getMemberNumber(),true).orElseThrow(
+	public String save(Long memberId, PostKeywordReq postKeywordReq){
+		Member member = memberRepository.findByIdAndIsEnable(memberId,true).orElseThrow(
 			MemberNotFoundException::new);
 		Keyword keyword = new Keyword(member, postKeywordReq.getKeyword());
 		keywordRepository.save(keyword);
@@ -35,11 +35,11 @@ public class KeywordService {
 	}
 
 	@Transactional
-	public String delete(PostKeywordReq postKeywordReq){
-		Member member = memberRepository.findByMemberNumberAndIsEnable(postKeywordReq.getMemberNumber(),true).orElseThrow(
+	public String delete(Long memberId, PostKeywordReq postKeywordReq){
+		Member member = memberRepository.findByIdAndIsEnable(memberId,true).orElseThrow(
 			MemberNotFoundException::new);
-		Keyword keyword = keywordRepository.findByMember_MemberNumberAndNameAndIsEnable(
-			postKeywordReq.getMemberNumber(),
+		Keyword keyword = keywordRepository.findByMember_IdAndNameAndIsEnable(
+			memberId,
 			postKeywordReq.getKeyword(), true).orElseThrow(NullPointerException::new);
 		keyword.setIsEnable(false);
 		member.deleteKeyword(keyword);
@@ -47,8 +47,8 @@ public class KeywordService {
 	}
 
 	@Transactional
-	public MemberKeywordRes getMemberKeyword(String memberNumber){
-		List<Keyword> memberKeyword = keywordRepository.findByMember_MemberNumberAndIsEnable(memberNumber, true);
+	public MemberKeywordRes getMemberKeyword(Long memberId){
+		List<Keyword> memberKeyword = keywordRepository.findByMember_IdAndIsEnable(memberId, true);
 		List<String> keywordList =  memberKeyword.stream()
 			.map(Keyword::getName)
 			.collect(Collectors.toList());
