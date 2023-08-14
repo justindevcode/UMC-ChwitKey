@@ -50,23 +50,23 @@ public class MemberService {
     }
 
     @Transactional
-    public String updateName(UpdateNameReq updateNameReq){
-        Member member = memberRepository.findByMemberNumberAndIsEnable(updateNameReq.getMemberNumber(),true).orElseThrow(MemberNotFoundException::new);
+    public String updateName(Long memberId,UpdateNameReq updateNameReq){
+        Member member = memberRepository.findByIdAndIsEnable(memberId,true).orElseThrow(MemberNotFoundException::new);
         member.updateMemberName(updateNameReq.getUpdateName());
         return "success update memberName : " + member.getName();
     }
 
     @Transactional
-    public String updateIndustryKeyword(UpdateIndustryReq updateIndustryReq){
+    public String updateIndustryKeyword(Long memberId, UpdateIndustryReq updateIndustryReq){
         IndustryKeyword industryKeyword = new IndustryKeyword(updateIndustryReq.getIndustryKeyword1(), updateIndustryReq.getIndustryKeyword2(), updateIndustryReq.getIndustryKeyword3());
-        Member member = memberRepository.findByMemberNumberAndIsEnable(updateIndustryReq.getMemberNumber(),true).orElseThrow(MemberNotFoundException::new);
+        Member member = memberRepository.findByIdAndIsEnable(memberId,true).orElseThrow(MemberNotFoundException::new);
         member.updateMemberIndustry(industryKeyword);
         return "success update MemberIndustry : " + member.getName();
     }
 
     @Transactional
-    public MemberInfoRes memberInfo(String memberNumber){
-        Member member = memberRepository.findByMemberNumberAndIsEnable(memberNumber, true)
+    public MemberInfoRes memberInfo(Long memberId){
+        Member member = memberRepository.findByIdAndIsEnable(memberId, true)
             .orElseThrow(MemberNotFoundException::new);
         return MemberInfoRes.toDto(member);
     }

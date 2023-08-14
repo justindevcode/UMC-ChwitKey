@@ -8,6 +8,5 @@ import lombok.Getter;
 @Getter
 public class UpdateNameReq {
 
-	private String memberNumber;
 	private String updateName;
 }

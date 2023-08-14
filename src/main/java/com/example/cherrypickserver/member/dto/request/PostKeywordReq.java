@@ -7,6 +7,5 @@ import lombok.Getter;
 @Getter
 public class PostKeywordReq {
 
-	private String memberNumber;
 	private String keyword;
 }
