@@ -52,7 +52,8 @@ public class KeywordService {
 		List<String> keywordList =  memberKeyword.stream()
 			.map(Keyword::getName)
 			.collect(Collectors.toList());
-		MemberKeywordRes memberKeywordRes = new MemberKeywordRes(keywordList);
+		MemberKeywordRes memberKeywordRes = new MemberKeywordRes();
+		memberKeywordRes.setKeywordList(keywordList);
 		return memberKeywordRes;
 
 	}
