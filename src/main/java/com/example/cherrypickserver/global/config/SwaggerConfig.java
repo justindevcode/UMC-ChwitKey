@@ -18,19 +18,19 @@ public class SwaggerConfig {
             .version(version)
             .description("cherrypick 프로젝트의 API 명세서입니다.");
 
-//    String jwtScheme = "jwtAuth";
-//    SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtScheme);
-//    Components components = new Components()
-//            .addSecuritySchemes(jwtScheme, new SecurityScheme()
-//                    .name(jwtScheme)
-//                    .type(SecurityScheme.Type.HTTP)
-//                    .scheme("bearer")
-//                    .bearerFormat("JWT"));
+    String jwtScheme = "jwtAuth";
+    SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtScheme);
+    Components components = new Components()
+            .addSecuritySchemes(jwtScheme, new SecurityScheme()
+                    .name(jwtScheme)
+                    .type(SecurityScheme.Type.HTTP)
+                    .scheme("bearer")
+                    .bearerFormat("JWT"));
 
     return new OpenAPI()
             .components(new Components())
-            .info(info);
-//            .addSecurityItem(securityRequirement)
-//            .components(components);
+            .info(info)
+            .addSecurityItem(securityRequirement)
+            .components(components);
   }
 }
