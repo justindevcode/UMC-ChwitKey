@@ -157,7 +157,7 @@ public class MemberController {
     })
     @Auth
     @ResponseBody
-    @GetMapping("/info}")
+    @GetMapping("/info")
     public ResponseCustom<MemberInfoRes> getMemberInfo(
         @IsLogin LoginStatus loginStatus
     )
