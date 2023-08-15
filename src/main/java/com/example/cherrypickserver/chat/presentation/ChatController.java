@@ -31,7 +31,7 @@ public class ChatController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 기사")
     })
     @Parameters({
-            @Parameter(name = "loginStatus", description = "멤버 아이디"),
+            @Parameter(name = "loginStatus", hidden = true),
             @Parameter(name = "articleId", description = "기사 아이디")
     })
     @PostMapping("/new/{articleId}")
