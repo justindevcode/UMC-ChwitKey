@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
-@Tag(name = "Article Controller", description = "기사 관련 컨드롤러")
+@Tag(name = "Article Controller", description = "기사 관련 컨트롤러")
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
 @RestController

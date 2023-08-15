@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Tag(name = "Member Controller", description = "회원 컨드롤러")
+@Tag(name = "Member Controller", description = "회원 컨트롤러")
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
 @RestController
@@ -171,7 +171,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 회원")
     })
     @Parameters({
-            @Parameter(name = "loginStatus", description = "멤버 아이디"),
+            @Parameter(name = "loginStatus", hidden = true),
             @Parameter(name = "multipartFile", description = "프로필 이미지 정보")
     })
     @Auth
@@ -187,7 +187,7 @@ public class MemberController {
     })
     @Auth
     @DeleteMapping("/deleteImage")
-    public ResponseCustom<String> deleteImage(@Parameter(description = "멤버 아이디") @IsLogin LoginStatus loginStatus) {
+    public ResponseCustom<String> deleteImage(@Parameter(hidden = true) @IsLogin LoginStatus loginStatus) {
         return ResponseCustom.OK(s3Service.deleteImage(loginStatus.getMemberId()));
     }
 
@@ -198,7 +198,7 @@ public class MemberController {
     })
     @Auth
     @DeleteMapping("/deleteMember")
-    public ResponseCustom<String> deleteMember(@Parameter(description = "멤버 아이디") @IsLogin LoginStatus loginStatus) {
+    public ResponseCustom<String> deleteMember(@Parameter(hidden = true) @IsLogin LoginStatus loginStatus) {
         return ResponseCustom.OK(memberService.deleteMember(loginStatus.getMemberId()));
     }
 
