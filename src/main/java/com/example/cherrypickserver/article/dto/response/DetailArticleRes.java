@@ -11,20 +11,24 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 public class DetailArticleRes {
+  private Long articleId;
   private String title;
   private String content;
   private String publisher;
   private Date uploadedAt;
   private String reporter;
+  private String industry;
   private List<DetailArticlePhotoRes> articlePhoto;
 
   public static DetailArticleRes toDto(Article article) {
     return DetailArticleRes.builder()
+            .articleId(article.getId())
             .title(article.getTitle())
             .content(article.getContents())
             .publisher(article.getPublisher())
             .uploadedAt(article.getUploadedAt())
             .reporter(article.getReporter())
+            .industry(article.getIndustry().getValueGpt())
             .articlePhoto(article.getArticlePhoto().stream().map(DetailArticlePhotoRes::toDto).collect(Collectors.toList()))
             .build();
   }
