@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 @Getter
 public enum SortType {
-  ASC("acs"),
+  ASC("asc"),
   DESC("desc"),
   LIKE("like");
 
