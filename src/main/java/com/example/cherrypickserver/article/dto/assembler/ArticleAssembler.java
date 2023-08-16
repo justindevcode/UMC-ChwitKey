@@ -10,24 +10,14 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Date;
 
 @Component
 public class ArticleAssembler {
-  public Article toEntity(CreateArticleReq createArticleReq) throws ParseException {
-    return Article.builder()
-            .title(createArticleReq.getTitle())
-            .contents(createArticleReq.getContent())
-            .publisher(createArticleReq.getPublisher())
-            .reporter(createArticleReq.getReporter())
-            .industry(Industry.fromValue(createArticleReq.getIndustry()))
-            .uploadedAt(parseDate(createArticleReq.getUploadedAt()))
-            .build();
-  }
-
-  private Date parseDate(String registeredAt) throws ParseException{
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(registeredAt);
-  }
 
   public Pageable setSortType(Pageable pageable, String sortType) {
     SortType type = SortType.getSortTypeByName(sortType);
@@ -44,5 +34,24 @@ public class ArticleAssembler {
             .article(article)
             .attentionType(attentionType)
             .build();
+  }
+
+  public String calUploadedAt(LocalDateTime uploadedAt) {
+    LocalDateTime now = LocalDateTime.now();
+    int i = now.toLocalDate().compareTo(uploadedAt.toLocalDate());
+    if (i==0) {
+      if(now.getMinute() == uploadedAt.getMinute()) return Duration.between(uploadedAt.toLocalTime(), now.toLocalTime()).getSeconds() + "초 전";
+
+      if(now.getHour() == uploadedAt.getHour()) return Duration.between(uploadedAt.toLocalTime(), now.toLocalTime()).getSeconds()/60 + "분 전";
+
+      else return Duration.between(uploadedAt.toLocalTime(), now.toLocalTime()).toHours() + "시간 전";
+
+    } else if (i > 0) {
+      Period period = Period.between(uploadedAt.toLocalDate(), now.toLocalDate());
+      if (period.getYears() > 0) return period.getYears() + "년 전";
+      else if(period.getMonths() > 0) return period.getMonths() + "달 전";
+      else if(period.getDays() > 0) return period.getDays() + "일 전";
+    }
+    return "알 수 없음";
   }
 }

@@ -28,17 +28,6 @@ public class ArticleController {
 
   private final ArticleService articleService;
 
-  // 기사 추가
-  @Operation(summary = "기사 추가 요청", description = "기사 정보가 저장됩니다.")
-  @ApiResponses({
-          @ApiResponse(responseCode = "200", description = "기사 추가 성공"),
-  })
-  @ResponseBody
-  @PostMapping("/new")
-  public ResponseCustom<Long> createArticle(@RequestBody CreateArticleReq createArticleReq) throws ParseException {
-    return ResponseCustom.OK(articleService.createArticle(createArticleReq));
-  }
-
   // 기사 상세 조회
   @Operation(summary = "기사 상세조회 요청", description = "기사 상세 정보를 조회합니다.")
   @ApiResponses({

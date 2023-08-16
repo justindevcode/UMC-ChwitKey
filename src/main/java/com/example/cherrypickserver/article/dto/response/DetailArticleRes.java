@@ -4,6 +4,8 @@ import com.example.cherrypickserver.article.domain.Article;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,18 +17,18 @@ public class DetailArticleRes {
   private String title;
   private String content;
   private String publisher;
-  private Date uploadedAt;
+  private String uploadedAt;
   private String reporter;
   private String industry;
   private List<DetailArticlePhotoRes> articlePhoto;
 
-  public static DetailArticleRes toDto(Article article) {
+  public static DetailArticleRes toDto(Article article, String uploadedAt) {
     return DetailArticleRes.builder()
             .articleId(article.getId())
             .title(article.getTitle())
             .content(article.getContents())
             .publisher(article.getPublisher())
-            .uploadedAt(article.getUploadedAt())
+            .uploadedAt(uploadedAt)
             .reporter(article.getReporter())
             .industry(article.getIndustry().getValueGpt())
             .articlePhoto(article.getArticlePhoto().stream().map(DetailArticlePhotoRes::toDto).collect(Collectors.toList()))
