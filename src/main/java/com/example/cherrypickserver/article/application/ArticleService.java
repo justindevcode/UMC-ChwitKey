@@ -11,7 +11,6 @@ import java.text.ParseException;
 
 
 public interface ArticleService {
-  Long createArticle(CreateArticleReq createArticleReq) throws ParseException;
 
   DetailArticleRes detailArticle(Long articleIdx);
 

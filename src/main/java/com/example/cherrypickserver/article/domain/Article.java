@@ -5,6 +5,7 @@ import com.example.cherrypickserver.global.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Article extends BaseEntity {
 
   private String reporter;
 
-  private Date uploadedAt;
+  private LocalDateTime uploadedAt;
 
   @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
   private List<ArticlePhoto> articlePhoto = new ArrayList<>();
@@ -41,7 +42,7 @@ public class Article extends BaseEntity {
   private int likeCount = 0;
 
   @Builder
-  public Article(String contents, String title, String publisher, String reporter, Date uploadedAt, int likeCount, Industry industry) {
+  public Article(String contents, String title, String publisher, String reporter, LocalDateTime uploadedAt, int likeCount, Industry industry) {
     this.contents = contents;
     this.title = title;
     this.publisher = publisher;

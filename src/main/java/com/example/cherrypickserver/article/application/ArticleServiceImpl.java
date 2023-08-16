@@ -32,15 +32,9 @@ public class ArticleServiceImpl implements ArticleService {
   private final ArticleAssembler articleAssembler;
 
   @Override
-  public Long createArticle(CreateArticleReq createArticleReq) throws ParseException {
-    Article article = articleRepository.save(articleAssembler.toEntity(createArticleReq));
-    createArticleReq.getArticlePhotos().forEach(articlePhoto -> articlePhotoRepository.save(ArticlePhoto.builder().article(article).articleImgUrl(articlePhoto.getArticleImgUrl()).build()));
-    return article.getId();
-  }
-
-  @Override
   public DetailArticleRes detailArticle(Long articleId) {
-    return DetailArticleRes.toDto(articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new));
+    Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
+    return DetailArticleRes.toDto(article, articleAssembler.calUploadedAt(article.getUploadedAt()));
   }
 
   @Override
@@ -49,10 +43,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     if (StringUtils.hasText(cond)) {
       Page<Article> articles = articleRepository.findByTitleContainingOrContentsContainingAndIsEnable(cond, cond, true, pageable);
-      return articles.map(SearchArticleRes::toDto);
+      return articles.map(m -> SearchArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt())));
     }
     Page<Article> articles = articleRepository.findByIsEnable(true, pageable);
-    return articles.map(SearchArticleRes::toDto);
+    return articles.map(m -> SearchArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt())));
   }
 
   @Override
@@ -83,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
     memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
     pageable = articleAssembler.setSortType(pageable, sortType);
     Page<Article> articles = articleRepository.findByTitleContainingOrContentsContainingAndIsEnable(keyword, keyword, true, pageable);
-    return articles.map(SearchArticleRes::toDto);
+    return articles.map(m -> SearchArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt())));
   }
 
   @Override
@@ -91,6 +85,6 @@ public class ArticleServiceImpl implements ArticleService {
     memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
     pageable = articleAssembler.setSortType(pageable, sortType);
     Page<Article> articles = articleRepository.findByIndustryOrTitleContainingOrContentsContainingAndIsEnable(Industry.fromValue(industry), industry, industry, true, pageable);
-    return articles.map(SearchArticleRes::toDto);
+    return articles.map(m -> SearchArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt())));
   }
 }
