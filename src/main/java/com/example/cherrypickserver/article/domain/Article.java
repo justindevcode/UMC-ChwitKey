@@ -29,6 +29,9 @@ public class Article extends BaseEntity {
 
   private String reporter;
 
+  private String url;
+
+
   private LocalDateTime uploadedAt;
 
   @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
