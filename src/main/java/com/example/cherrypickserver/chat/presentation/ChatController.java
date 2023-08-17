@@ -31,11 +31,11 @@ public class ChatController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 회원"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 기사")
     })
-    @Auth
     @Parameters({
             @Parameter(name = "loginStatus", hidden = true),
             @Parameter(name = "articleId", description = "기사 아이디")
     })
+    @Auth
     @PostMapping("/new/{articleId}")
     public ResponseCustom<ChatResponse> createChatAndContent(@IsLogin LoginStatus loginStatus, @PathVariable Long articleId) {
         return ResponseCustom.OK(chatService.createChatAndContent(loginStatus.getMemberId(), articleId));
