@@ -20,6 +20,7 @@ public class DetailArticleRes {
   private String uploadedAt;
   private String reporter;
   private String industry;
+  private String url;
   private List<DetailArticlePhotoRes> articlePhoto;
 
   public static DetailArticleRes toDto(Article article, String uploadedAt) {
@@ -31,6 +32,7 @@ public class DetailArticleRes {
             .uploadedAt(uploadedAt)
             .reporter(article.getReporter())
             .industry(article.getIndustry().getValueGpt())
+            .url(article.getUrl())
             .articlePhoto(article.getArticlePhoto().stream().map(DetailArticlePhotoRes::toDto).collect(Collectors.toList()))
             .build();
   }
