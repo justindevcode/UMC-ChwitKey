@@ -18,8 +18,8 @@ public class ChatMapper {
 
     public ChatResponse fromEntity(Chat chat) {
 
-        String greeting = "안녕하세요. 취트키GPT입니다.\n '"
-                + chat.getArticle().getTitle() + "' 기사를 보고 오셨네요.\n"
+        String greeting = "안녕하세요 취트키 GPT입니다. \n\n\""
+                + chat.getArticle().getTitle() + "\" \n기사를 보고 오셨네요. \n\n"
                 + "기사 내용 중 궁금한 부분이 있다면 물어보세요.";
 
         return ChatResponse.builder()
