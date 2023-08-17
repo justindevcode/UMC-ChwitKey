@@ -5,6 +5,7 @@ import com.example.cherrypickserver.chat.dto.response.GptResponse;
 import com.example.cherrypickserver.chat.dto.request.QuestionRequest;
 import com.example.cherrypickserver.chat.dto.response.ChatResponse;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
+import com.example.cherrypickserver.global.resolver.Auth;
 import com.example.cherrypickserver.global.resolver.IsLogin;
 import com.example.cherrypickserver.global.resolver.LoginStatus;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,7 @@ public class ChatController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 회원"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 기사")
     })
+    @Auth
     @Parameters({
             @Parameter(name = "loginStatus", hidden = true),
             @Parameter(name = "articleId", description = "기사 아이디")
