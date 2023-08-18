@@ -17,7 +17,7 @@ public class ChatCompletionMapper {
                 .model("gpt-3.5-turbo")
                 .messages(chatMessageList)
                 .temperature(0.5) //창의성과 일관성 조절
-                .frequencyPenalty(-0.5) //단어의 빈도수를 고려해 문장의 일관성 유지
+//                .frequencyPenalty(-0.5) //단어의 빈도수를 고려해 문장의 일관성 유지
                 .maxTokens(500)
                 .build();
     }
