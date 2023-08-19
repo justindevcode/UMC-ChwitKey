@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
+import java.util.List;
 
 
 @Service
@@ -32,9 +33,11 @@ public class ArticleServiceImpl implements ArticleService {
   private final ArticleAssembler articleAssembler;
 
   @Override
-  public DetailArticleRes detailArticle(Long articleId) {
+  public DetailArticleRes detailArticle(Long memberId, Long articleId) {
+    Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
     Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
-    return DetailArticleRes.toDto(article, articleAssembler.calUploadedAt(article.getUploadedAt()));
+    List<ArticleAttention> attentionCheck = articleAttentionRepository.findByArticleAndMemberAndIsEnable(article, member, true);
+    return DetailArticleRes.toDto(article, attentionCheck, articleAssembler.calUploadedAt(article.getUploadedAt()));
   }
 
   @Override

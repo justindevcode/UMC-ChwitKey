@@ -12,7 +12,7 @@ import java.text.ParseException;
 
 public interface ArticleService {
 
-  DetailArticleRes detailArticle(Long articleIdx);
+  DetailArticleRes detailArticle(Long memberId, Long articleIdx);
 
   Page<SearchArticleRes> searchArticle(String cond, String sortType, Pageable pageable);
 

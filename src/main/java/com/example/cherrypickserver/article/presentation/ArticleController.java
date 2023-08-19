@@ -34,10 +34,15 @@ public class ArticleController {
           @ApiResponse(responseCode = "200", description = "기사 상세조회 성공"),
           @ApiResponse(responseCode = "404", description = "존재하지 않는 기사"),
   })
+  @Auth
   @ResponseBody
   @GetMapping("/detail/{articleId}")
-  public ResponseCustom<DetailArticleRes> detailArticle(@Parameter(description = "기사 id") @PathVariable Long articleId) {
-    return ResponseCustom.OK(articleService.detailArticle(articleId));
+  public ResponseCustom<DetailArticleRes> detailArticle(
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
+          @Parameter(description = "기사 id") @PathVariable Long articleId
+  )
+  {
+    return ResponseCustom.OK(articleService.detailArticle(loginStatus.getMemberId(), articleId));
   }
 
   //  // 기사 검색 (커맨드 + 정렬)
