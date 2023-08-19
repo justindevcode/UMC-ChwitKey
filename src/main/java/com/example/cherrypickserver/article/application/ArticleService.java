@@ -2,12 +2,14 @@ package com.example.cherrypickserver.article.application;
 
 import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
+import com.example.cherrypickserver.article.dto.response.ScrapArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.article.dto.response.ShareArticleRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.text.ParseException;
+import java.util.List;
 
 
 public interface ArticleService {
@@ -23,4 +25,6 @@ public interface ArticleService {
   Page<SearchArticleRes> searchArticleByKeyword(Long memberId, String keyword, String sortType, Pageable pageable);
 
   Page<SearchArticleRes> searchArticleByIndustry(Long memberId, String industry, String sortType, Pageable pageable);
+
+  List<ScrapArticleRes> getScrapArticle(Long memberId);
 }

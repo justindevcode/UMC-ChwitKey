@@ -10,4 +10,6 @@ public interface ArticleAttentionRepository extends JpaRepository<ArticleAttenti
   Optional<ArticleAttention> findByArticleIdAndMemberIdAndAttentionTypeAndIsEnable(Long articleId, Long memberId, AttentionType type, Boolean isEnable);
 
   List<ArticleAttention> findByArticleAndMemberAndIsEnable(Article article, Member member, Boolean isEnable);
+
+  List<ArticleAttention> findByMemberAndIsEnable(Member member, Boolean isEnable);
 }
