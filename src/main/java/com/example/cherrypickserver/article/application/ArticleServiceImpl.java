@@ -2,8 +2,8 @@ package com.example.cherrypickserver.article.application;
 
 import com.example.cherrypickserver.article.domain.*;
 import com.example.cherrypickserver.article.dto.assembler.ArticleAssembler;
-import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
+import com.example.cherrypickserver.article.dto.response.ScrapArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.article.exception.AlreadyAttendArticleException;
 import com.example.cherrypickserver.article.exception.ArticleAttentionNotFoundException;
@@ -18,7 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -32,9 +34,11 @@ public class ArticleServiceImpl implements ArticleService {
   private final ArticleAssembler articleAssembler;
 
   @Override
-  public DetailArticleRes detailArticle(Long articleId) {
+  public DetailArticleRes detailArticle(Long memberId, Long articleId) {
+    Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
     Article article = articleRepository.findByIdAndIsEnable(articleId, true).orElseThrow(ArticleNotFoundException::new);
-    return DetailArticleRes.toDto(article, articleAssembler.calUploadedAt(article.getUploadedAt()));
+    List<ArticleAttention> attentionCheck = articleAttentionRepository.findByArticleAndMemberAndIsEnable(article, member, true);
+    return DetailArticleRes.toDto(article, attentionCheck, articleAssembler.calUploadedAt(article.getUploadedAt()));
   }
 
   @Override
@@ -86,5 +90,17 @@ public class ArticleServiceImpl implements ArticleService {
     pageable = articleAssembler.setSortType(pageable, sortType);
     Page<Article> articles = articleRepository.findByIndustryOrTitleContainingOrContentsContainingAndIsEnable(Industry.fromValue(industry), industry, industry, true, pageable);
     return articles.map(m -> SearchArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt())));
+  }
+
+  @Override
+  public List<ScrapArticleRes> getScrapArticle(Long memberId) {
+    Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
+    List<ArticleAttention> articleAttentions = articleAttentionRepository.findByMemberAndIsEnable(member, true);
+
+    List<Article> scrappedArticles = new ArrayList<>();
+    for (ArticleAttention articleAttention : articleAttentions) {
+      articleRepository.findByIdAndIsEnable(articleAttention.getArticle().getId(), true).ifPresent(scrappedArticles::add);
+    }
+    return  scrappedArticles.stream().map(m -> ScrapArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt()))).collect(Collectors.toList());
   }
 }

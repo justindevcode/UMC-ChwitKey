@@ -1,8 +1,8 @@
 package com.example.cherrypickserver.article.presentation;
 
 import com.example.cherrypickserver.article.application.ArticleService;
-import com.example.cherrypickserver.article.dto.request.CreateArticleReq;
 import com.example.cherrypickserver.article.dto.response.DetailArticleRes;
+import com.example.cherrypickserver.article.dto.response.ScrapArticleRes;
 import com.example.cherrypickserver.article.dto.response.SearchArticleRes;
 import com.example.cherrypickserver.global.dto.ResponseCustom;
 import com.example.cherrypickserver.global.resolver.Auth;
@@ -18,7 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+import java.util.List;
 
 @Tag(name = "Article Controller", description = "기사 관련 컨트롤러")
 @RequestMapping("/api/articles")
@@ -34,10 +34,15 @@ public class ArticleController {
           @ApiResponse(responseCode = "200", description = "기사 상세조회 성공"),
           @ApiResponse(responseCode = "404", description = "존재하지 않는 기사"),
   })
+  @Auth
   @ResponseBody
   @GetMapping("/detail/{articleId}")
-  public ResponseCustom<DetailArticleRes> detailArticle(@Parameter(description = "기사 id") @PathVariable Long articleId) {
-    return ResponseCustom.OK(articleService.detailArticle(articleId));
+  public ResponseCustom<DetailArticleRes> detailArticle(
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
+          @Parameter(description = "기사 id") @PathVariable Long articleId
+  )
+  {
+    return ResponseCustom.OK(articleService.detailArticle(loginStatus.getMemberId(), articleId));
   }
 
   //  // 기사 검색 (커맨드 + 정렬)
@@ -130,5 +135,20 @@ public class ArticleController {
   {
     articleService.unAttendArticle(articleId, loginStatus.getMemberId(), type);
     return ResponseCustom.OK();
+  }
+
+  // 스크랩 기사 조회
+  @Operation(summary = "스크랩 기사 조회", description = "스크랩한 기사를 조회합니다.")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = "스크랩 기사 조회 성공"),
+  })
+  @Auth
+  @ResponseBody
+  @GetMapping("/scrap")
+  public ResponseCustom<List<ScrapArticleRes>> getScrapArticle(
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus
+  )
+  {
+    return ResponseCustom.OK(articleService.getScrapArticle(loginStatus.getMemberId()));
   }
 }
