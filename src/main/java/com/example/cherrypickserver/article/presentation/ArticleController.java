@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public class ArticleController {
   public ResponseCustom<Page<SearchArticleRes>> searchArticle(
           @Parameter(description = "검색어") @RequestParam String cond,
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)")@RequestParam String sortType,
-          Pageable pageable
+          @PageableDefault(size = 10) Pageable pageable
   )
   {
     return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
@@ -73,7 +74,7 @@ public class ArticleController {
           @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @Parameter(description = "멤버가 등록한 키워드") @RequestParam String keyword,
-          Pageable pageable
+          @PageableDefault(size = 10) Pageable pageable
   )
   {
     return ResponseCustom.OK(articleService.searchArticleByKeyword(loginStatus.getMemberId(), keyword, sortType, pageable));
@@ -91,7 +92,7 @@ public class ArticleController {
           @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @Parameter(description = "멤버가 등록한 직군") @RequestParam String industry,
-          Pageable pageable
+          @PageableDefault(size = 10) Pageable pageable
   )
   {
     return ResponseCustom.OK(articleService.searchArticleByIndustry(loginStatus.getMemberId(), industry, sortType, pageable));
