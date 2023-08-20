@@ -21,9 +21,9 @@ public class ArticleAssembler {
 
   public Pageable setSortType(Pageable pageable, String sortType) {
     SortType type = SortType.getSortTypeByName(sortType);
-    if(type == SortType.ASC) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").ascending());
-    else if(type == SortType.DESC) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("uploadedAt").descending());
-    else if(type == SortType.LIKE) pageable = PageRequest.of(0, pageable.getPageSize(), Sort.by("likeCount").descending());
+    if(type == SortType.ASC) pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("uploadedAt").ascending());
+    else if(type == SortType.DESC) pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("uploadedAt").descending());
+    else if(type == SortType.LIKE) pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("likeCount").descending());
     else pageable = PageRequest.of(0, pageable.getPageSize());
     return pageable;
   }
