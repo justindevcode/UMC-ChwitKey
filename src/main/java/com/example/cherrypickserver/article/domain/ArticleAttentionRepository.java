@@ -12,4 +12,6 @@ public interface ArticleAttentionRepository extends JpaRepository<ArticleAttenti
   List<ArticleAttention> findByArticleAndMemberAndIsEnable(Article article, Member member, Boolean isEnable);
 
   List<ArticleAttention> findByMemberAndIsEnable(Member member, Boolean isEnable);
+
+  List<ArticleAttention> findByMemberAndAttentionTypeAndIsEnable(Member member, AttentionType scrap, Boolean isEnable);
 }

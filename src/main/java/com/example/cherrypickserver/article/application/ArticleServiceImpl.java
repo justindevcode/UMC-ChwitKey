@@ -95,7 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public List<ScrapArticleRes> getScrapArticle(Long memberId) {
     Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
-    List<ArticleAttention> articleAttentions = articleAttentionRepository.findByMemberAndIsEnable(member, true);
+    List<ArticleAttention> articleAttentions = articleAttentionRepository.findByMemberAndAttentionTypeAndIsEnable(member, AttentionType.SCRAP, true);
 
     List<Article> scrappedArticles = new ArrayList<>();
     for (ArticleAttention articleAttention : articleAttentions) {
