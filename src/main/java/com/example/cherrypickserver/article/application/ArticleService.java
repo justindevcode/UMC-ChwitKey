@@ -26,5 +26,5 @@ public interface ArticleService {
 
   Page<SearchArticleRes> searchArticleByIndustry(Long memberId, String industry, String sortType, Pageable pageable);
 
-  List<ScrapArticleRes> getScrapArticle(Long memberId);
+  Page<ScrapArticleRes> getScrapArticle(Long memberId, Pageable pageable);
 }
