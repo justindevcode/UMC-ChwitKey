@@ -41,8 +41,7 @@ public class ArticleController {
   public ResponseCustom<DetailArticleRes> detailArticle(
           @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "기사 id") @PathVariable Long articleId
-  )
-  {
+  ) {
     return ResponseCustom.OK(articleService.detailArticle(loginStatus.getMemberId(), articleId));
   }
 
@@ -55,10 +54,9 @@ public class ArticleController {
   @GetMapping("/search")
   public ResponseCustom<Page<SearchArticleRes>> searchArticle(
           @Parameter(description = "검색어") @RequestParam String cond,
-          @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)")@RequestParam String sortType,
+          @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @PageableDefault(size = 10) Pageable pageable
-  )
-  {
+  ) {
     return ResponseCustom.OK(articleService.searchArticle(cond, sortType, pageable));
   }
 
@@ -75,8 +73,7 @@ public class ArticleController {
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @Parameter(description = "멤버가 등록한 키워드") @RequestParam String keyword,
           @PageableDefault(size = 10) Pageable pageable
-  )
-  {
+  ) {
     return ResponseCustom.OK(articleService.searchArticleByKeyword(loginStatus.getMemberId(), keyword, sortType, pageable));
   }
 
@@ -93,8 +90,7 @@ public class ArticleController {
           @Parameter(description = "ASC(오름차순), DESC(내림차순), LIKE(인기순)") @RequestParam String sortType,
           @Parameter(description = "멤버가 등록한 직군") @RequestParam String industry,
           @PageableDefault(size = 10) Pageable pageable
-  )
-  {
+  ) {
     return ResponseCustom.OK(articleService.searchArticleByIndustry(loginStatus.getMemberId(), industry, sortType, pageable));
   }
 
@@ -113,8 +109,7 @@ public class ArticleController {
           @Parameter(description = "기사 id") @PathVariable Long articleId,
           @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "좋아요(like), 스크랩(scrap)") @RequestParam String type
-          )
-  {
+  ) {
     articleService.attendArticle(articleId, loginStatus.getMemberId(), type);
     return ResponseCustom.OK();
   }
@@ -132,8 +127,7 @@ public class ArticleController {
           @Parameter(description = "기사 id") @PathVariable Long articleId,
           @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
           @Parameter(description = "좋아요(like), 스크랩(scrap)") @RequestParam String type
-  )
-  {
+  ) {
     articleService.unAttendArticle(articleId, loginStatus.getMemberId(), type);
     return ResponseCustom.OK();
   }
@@ -146,10 +140,11 @@ public class ArticleController {
   @Auth
   @ResponseBody
   @GetMapping("/scrap")
-  public ResponseCustom<List<ScrapArticleRes>> getScrapArticle(
-          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus
-  )
-  {
-    return ResponseCustom.OK(articleService.getScrapArticle(loginStatus.getMemberId()));
+  public ResponseCustom<Page<ScrapArticleRes>> getScrapArticle(
+          @Parameter(description = "멤버 id") @IsLogin LoginStatus loginStatus,
+          @PageableDefault(size = 10) Pageable pageable
+
+  ) {
+    return ResponseCustom.OK(articleService.getScrapArticle(loginStatus.getMemberId(), pageable));
   }
 }

@@ -13,6 +13,7 @@ import com.example.cherrypickserver.member.domain.MemberRepository;
 import com.example.cherrypickserver.member.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,14 +94,15 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   @Override
-  public List<ScrapArticleRes> getScrapArticle(Long memberId) {
+  public Page<ScrapArticleRes> getScrapArticle(Long memberId, Pageable pageable) {
+    pageable = articleAssembler.setSortType(pageable, "desc");
+
     Member member = memberRepository.findByIdAndIsEnable(memberId, true).orElseThrow(MemberNotFoundException::new);
     List<ArticleAttention> articleAttentions = articleAttentionRepository.findByMemberAndAttentionTypeAndIsEnable(member, AttentionType.SCRAP, true);
 
-    List<Article> scrappedArticles = new ArrayList<>();
-    for (ArticleAttention articleAttention : articleAttentions) {
-      articleRepository.findByIdAndIsEnable(articleAttention.getArticle().getId(), true).ifPresent(scrappedArticles::add);
-    }
-    return  scrappedArticles.stream().map(m -> ScrapArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt()))).collect(Collectors.toList());
+    List<Article> articles = articleAttentions.stream().map(m -> articleRepository.findByIdAndIsEnable(m.getArticle().getId(), true).orElseThrow(ArticleNotFoundException::new)).collect(Collectors.toList());
+    PageImpl<Article> scrapArticles = new PageImpl<>(articles, pageable, articles.size());
+
+    return  scrapArticles.map(m -> ScrapArticleRes.toDto(m, articleAssembler.calUploadedAt(m.getUploadedAt())));
   }
 }

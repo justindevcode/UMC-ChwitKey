@@ -5,11 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-  Optional<Article> findByIdAndIsEnable(Long articleIdx, Boolean status);
+  Optional<Article> findByIdAndIsEnable(Long articleId, Boolean isEnable);
 
   Page<Article> findByTitleContainingOrContentsContainingAndIsEnable(String titleCond, String contentCond, Boolean isEnable, Pageable pageable);
 
