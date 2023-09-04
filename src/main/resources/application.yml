@@ -68,6 +68,17 @@ cloud:
     stack:
       auto: false
 
+management:
+  server:
+    port: 9292
+  endpoint:
+    shutdown:
+      enabled: true # shutdown endpoint 활성화
+  endpoints:
+    web: # web에 endpoint 노출
+      exposure:
+        include: "*" # 모든 엔드포인트 노출
+
 ---
 
 spring:
