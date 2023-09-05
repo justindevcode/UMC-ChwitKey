@@ -74,10 +74,13 @@ management:
   endpoint:
     shutdown:
       enabled: true # shutdown endpoint 활성화
+    metrics:
+      enabled: true
   endpoints:
     web: # web에 endpoint 노출
       exposure:
         include: "*" # 모든 엔드포인트 노출
+
 
 ---
 
