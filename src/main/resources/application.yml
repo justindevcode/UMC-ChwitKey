@@ -70,7 +70,7 @@ cloud:
 
 management:
   server:
-    port: 9292
+    port: 9090
   endpoint:
     shutdown:
       enabled: true # shutdown endpoint 활성화
