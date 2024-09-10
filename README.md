@@ -60,17 +60,17 @@
 <table style="font-weight : bold">
       <tr>
          <td align="center">
-          <a href="https://github.com/arinming">                 
+          <a href="https://github.com/dangnak2">                 
                   <img alt="dangnak2" src="https://avatars.githubusercontent.com/dangnak2" width="100" />            
               </a>
           </td>
           <td align="center">
-              <a href="https://github.com/JunYeong0314">                 
-                  <img alt="witwint" src="https://avatars.githubusercontent.com/witwint" width="100" />            
+              <a href="https://github.com/justindevcode">                 
+                  <img alt="witwint" src="https://avatars.githubusercontent.com/justindevcode" width="100" />            
               </a>
           </td>
           <td align="center">
-              <a href="https://github.com/syeonnn">                 
+              <a href="https://github.com/letskuku">                 
                   <img alt="letskuku" src="https://avatars.githubusercontent.com/letskuku" width="100" />            
               </a>
           </td>
