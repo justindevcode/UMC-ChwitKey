@@ -1,8 +1,3 @@
-## ChwitKey-Server
-취트키 서버 레포입니다.
-
-
-
 # 🔑 취업 성공의 치트키, 취트키!
 
  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/4620b760-81d1-4c40-827e-cfad14dd6f13"/>  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/687e759a-8b00-4a58-a523-eae0eb2dbbb6"/>  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/c6876d12-0414-4f86-aa0c-9ba225453c47"/> 
@@ -27,7 +22,11 @@ https://github.com/ChwitKey/CherryPickCrawling
 ## 백엔드 팀장
 팀장으로서 KPT 회고 방식을 통해 팀의 성과를 분석하고, 문제점을 개선하여 프로젝트의 효율성을 증대시켰습니다.  
 
+---
+
 <div align="center">
+
+# 👋 About
 
 ## 2023.07 - 2023. 08
 
