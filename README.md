@@ -2,11 +2,8 @@
 
  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/4620b760-81d1-4c40-827e-cfad14dd6f13"/>  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/687e759a-8b00-4a58-a523-eae0eb2dbbb6"/>  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/c6876d12-0414-4f86-aa0c-9ba225453c47"/> 
 
-# Period
-2023/07 ~ 2023/08
-
-# Stacks
-Java, Spring, JPA, mysql, jsoup, GitHub Actions, AWS Elastic Beanstalk
+### Period : 2023/07 ~ 2023/08
+### Stacks : Java, Spring, JPA, mysql, jsoup, GitHub Actions, AWS Elastic Beanstalk
 
 # 문석범's 수행역할 및 배운점
 
