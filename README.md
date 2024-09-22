@@ -7,6 +7,26 @@
 
  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/4620b760-81d1-4c40-827e-cfad14dd6f13"/>  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/687e759a-8b00-4a58-a523-eae0eb2dbbb6"/>  <img width="200px" src="https://github.com/Cherrypickk/ChwitKey-Android/assets/97820109/c6876d12-0414-4f86-aa0c-9ba225453c47"/> 
 
+# 문석범's 수행역할 및 배운점
+
+## 크롤링 추가서버
+https://github.com/ChwitKey/CherryPickCrawling  
+
+## 크롤링서버 구조
+<img width="761" alt="2 PNG (1)" src="https://github.com/user-attachments/assets/98bfe921-d17d-448d-9bec-b64e398ad07f">
+
+## 크롤링서버 GitHub Actions을 사용한 cicd를 구현
+
+## 프로젝트의 아키텍처를 생각하며 성능이슈도 생각
+서버 분리를 통해 메인 서버의 부하를 감소시키고, 각 서버의 성능을 최적화하여 시스템의 효율성과 안정성을 크게 향상시켰습니다. 이 결정은 더욱 빠른 대응과 확장성 증대를 가능하게 하여, 크롤링과 메인 작업의 분리로 전체적인 서비스 운영을 개선했습니다. 모노리틱 크롤링 서버의 성능 문제를 인식하고, 서버를 분할하여 MSA와 같은 분산 아키텍처를 공부하게 되는 계기가 되었습니다.  
+
+## java를 사용하여 크롤링을 구현
+
+## 메인서버의 유저 인증인가 개발
+
+## 백엔드 팀장
+팀장으로서 KPT 회고 방식을 통해 팀의 성과를 분석하고, 문제점을 개선하여 프로젝트의 효율성을 증대시켰습니다.  
+
 
 ## 2023.07 - 2023. 08
 
@@ -155,19 +175,4 @@
 <br>
 
 
-# 문석범's 배운점
 
-## 크롤링 추가서버
-https://github.com/ChwitKey/CherryPickCrawling  
-
-## 크롤링서버 구조
-<img width="761" alt="2 PNG (1)" src="https://github.com/user-attachments/assets/98bfe921-d17d-448d-9bec-b64e398ad07f">
-
-## 크롤링서버 GitHub Actions을 사용한 cicd를 구현
-
-## 프로젝트의 아키텍처를 생각하며 성능이슈도 생각
-서버 분리를 통해 메인 서버의 부하를 감소시키고, 각 서버의 성능을 최적화하여 시스템의 효율성과 안정성을 크게 향상시켰습니다. 이 결정은 더욱 빠른 대응과 확장성 증대를 가능하게 하여, 크롤링과 메인 작업의 분리로 전체적인 서비스 운영을 개선했습니다.
-
-## java를 사용하여 크롤링을 구현
-
-## 메인서버의 유저 인증인가 개발
