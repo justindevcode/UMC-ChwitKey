@@ -155,37 +155,19 @@
 <br>
 
 
-## 📁 *****Foldering*****
+# 문석범's 배운점
 
-</div>
+## 크롤링 추가서버
+https://github.com/ChwitKey/CherryPickCrawling  
 
+## 크롤링서버 구조
+<img width="761" alt="2 PNG (1)" src="https://github.com/user-attachments/assets/98bfe921-d17d-448d-9bec-b64e398ad07f">
 
-```
-📂 com.ChwitKey
-┣ 📂 article
-┃ ┣ 📂 application
-┃ ┣ 📂 domain
-┃ ┣ 📂 dto
-┃ ┣ 📂 exception
-┃ ┣ 📂 presentation
-┣ 📂 chat
-┃ ┣ 📂 application
-┃ ┣ 📂 domain
-┃ ┣ 📂 dto
-┃ ┣ 📂 exception
-┃ ┣ 📂 presentation
-┣ 📂 global
-┃ ┣ 📂 config
-┃ ┣ 📂 dto
-┃ ┣ 📂 entity
-┃ ┣ 📂 presentation
-┃ ┣ 📂 resolver
-┃ ┣ 📂 utils
-┣ 📂 member
-┃ ┣ 📂 application
-┃ ┣ 📂 domain
-┃ ┣ 📂 dto
-┃ ┣ 📂 exception
-┃ ┣ 📂 presentation
-```
+## 크롤링서버 GitHub Actions을 사용한 cicd를 구현
 
+## 프로젝트의 아키텍처를 생각하며 성능이슈도 생각
+서버 분리를 통해 메인 서버의 부하를 감소시키고, 각 서버의 성능을 최적화하여 시스템의 효율성과 안정성을 크게 향상시켰습니다. 이 결정은 더욱 빠른 대응과 확장성 증대를 가능하게 하여, 크롤링과 메인 작업의 분리로 전체적인 서비스 운영을 개선했습니다.
+
+## java를 사용하여 크롤링을 구현
+
+## 메인서버의 유저 인증인가 개발
